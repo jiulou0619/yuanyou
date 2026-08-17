@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="远择 FARWISE——基于证件、预算、个性、天气、安全和实时信号的可解释旅行推荐原型。"
+    />
+    <title>远择 FARWISE｜找到真正适合你的下一站</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="远择首页">
+        <span class="brand-mark" aria-hidden="true">远</span>
+        <span><b>远择</b><small>FARWISE</small></span>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="#planner">智能推荐</a>
+        <a href="#results">目的地</a>
+        <a href="#method">如何推荐</a>
+      </nav>
+      <div class="header-actions">
+        <button class="ghost-button compact" type="button">简中 · CNY</button>
+        <button class="avatar-button" type="button" data-login aria-label="登录或创建账户">登录</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow light">不是热门榜单，是你的旅行答案</p>
+          <h1 id="hero-title">下一站，应该<br />真正适合你。</h1>
+          <p class="hero-intro">
+            综合护照与签证、时间预算、性格兴趣、天气、安全、拥挤度和交通偏好，给出能解释、可比较、可执行的目的地建议。
+          </p>
+          <div class="proof-row" aria-label="产品特点">
+            <span>◎ 200+ 国家与地区</span>
+            <span>◇ 30+ 推荐信号</span>
+            <span>↻ 动态更新</span>
+          </div>
+        </div>
+
+        <section class="planner-card" id="planner" aria-labelledby="planner-title">
+          <div class="planner-heading">
+            <div>
+              <p class="eyebrow">约 2 分钟</p>
+              <h2 id="planner-title">告诉我，你想怎么出发</h2>
+            </div>
+            <span class="privacy-pill">仅保存国家/签证类型</span>
+          </div>
+
+          <div class="stepper" role="tablist" aria-label="推荐设置步骤">
+            <button class="step-tab active" type="button" data-step-target="1" role="tab" aria-selected="true">
+              <span>1</span><b>身份</b>
+            </button>
+            <button class="step-tab" type="button" data-step-target="2" role="tab" aria-selected="false">
+              <span>2</span><b>行程</b>
+            </button>
+            <button class="step-tab" type="button" data-step-target="3" role="tab" aria-selected="false">
+              <span>3</span><b>兴趣</b>
+            </button>
+            <button class="step-tab" type="button" data-step-target="4" role="tab" aria-selected="false">
+              <span>4</span><b>个性</b>
+            </button>
+            <button class="step-tab" type="button" data-step-target="5" role="tab" aria-selected="false">
+              <span>5</span><b>交通</b>
+            </button>
+          </div>
+
+          <form id="recommendation-form">
+            <div class="form-step active" data-step="1" role="tabpanel">
+              <div class="field-group">
+                <div class="field-label-row">
+                  <label for="passport-select">护照 / 旅行证件（可多选）</label>
+                  <button class="text-help" type="button" data-tip="只需选择签发国家或地区，不要输入护照号码。">为何需要？</button>
+                </div>
+                <div class="tag-list" id="passport-tags" aria-live="polite"></div>
+                <div class="inline-add">
+                  <select id="passport-select" aria-label="选择护照签发地">
+                    <option value="中国大陆">中国大陆</option>
+                    <option value="中国香港">中国香港</option>
+                    <option value="中国澳门">中国澳门</option>
+                    <option value="中国台湾">中国台湾</option>
+                    <option value="美国">美国</option>
+                    <option value="加拿大">加拿大</option>
+                    <option value="英国">英国</option>
+                    <option value="澳大利亚">澳大利亚</option>
+                    <option value="新加坡">新加坡</option>
+                    <option value="日本">日本</option>
+                    <option value="法国">法国</option>
+                    <option value="德国">德国</option>
+                  </select>
+                  <button class="secondary-button" id="add-passport" type="button">＋ 添加</button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="visa-select">现有签证 / 居留许可（可多选）</label>
+                <div class="tag-list" id="visa-tags" aria-live="polite"></div>
+                <div class="inline-add">
+                  <select id="visa-select" aria-label="选择现有签证或居留许可">
+                    <option value="申根多次签证">申根多次签证</option>
+                    <option value="美国 B1/B2">美国 B1/B2</option>
+                    <option value="日本多次签证">日本多次签证</option>
+                    <option value="英国访客签证">英国访客签证</option>
+                    <option value="加拿大访客签证">加拿大访客签证</option>
+                    <option value="澳大利亚访客签证">澳大利亚访客签证</option>
+                    <option value="新西兰访客签证">新西兰访客签证</option>
+                    <option value="欧盟/申根居留卡">欧盟/申根居留卡</option>
+                    <option value="美国绿卡">美国永久居民卡</option>
+                  </select>
+                  <button class="secondary-button" id="add-visa" type="button">＋ 添加</button>
+                </div>
+              </div>
+
+              <div class="two-col">
+                <label class="input-label">常住地
+                  <select id="residence"><option>中国大陆</option><option>美国</option><option>加拿大</option><option>英国</option><option>澳大利亚</option><option>新加坡</option></select>
+                </label>
+                <label class="input-label">出发城市
+                  <input id="origin" value="上海" autocomplete="address-level2" />
+                </label>
+              </div>
+
+              <button class="google-button" type="button" data-login>
+                <span aria-hidden="true">G</span> 使用 Google 登录并保存资料
+              </button>
+              <p class="microcopy">建议仅保存证件类别与有效期；证件号码和扫描件不属于推荐所需数据。</p>
+            </div>
+
+            <div class="form-step" data-step="2" role="tabpanel" hidden>
+              <div class="two-col">
+                <label class="input-label">最早出发
+                  <input id="start-date" type="date" value="2026-09-12" />
+                </label>
+                <label class="input-label">最晚返回
+                  <input id="end-date" type="date" value="2026-09-21" />
+                </label>
+              </div>
+              <div class="choice-row segmented-control" aria-label="日期灵活度">
+                <button class="choice-chip" type="button" aria-pressed="false"><span>固定日期</span></button>
+                <button class="choice-chip selected" type="button" aria-pressed="true"><span>前后 ±3 天</span></button>
+                <button class="choice-chip" type="button" aria-pressed="false"><span>整月皆可</span></button>
+              </div>
+
+              <div class="two-col">
+                <label class="input-label">旅行天数
+                  <select id="duration"><option>周末 2–3 天</option><option>4–6 天</option><option selected>7–10 天</option><option>11–16 天</option><option>17 天以上</option></select>
+                </label>
+                <label class="input-label">同行方式
+                  <select id="party"><option selected>独自旅行</option><option>伴侣 / 两人</option><option>朋友结伴</option><option>带儿童家庭</option><option>带长辈家庭</option><option>多人团体</option></select>
+                </label>
+              </div>
+
+              <div class="budget-box">
+                <div class="field-label-row">
+                  <label for="budget-range">人均总预算（含往返交通）</label>
+                  <output id="budget-output">¥18,000</output>
+                </div>
+                <div class="range-shell">
+                  <input class="smart-range" id="budget-range" type="range" min="3000" max="80000" step="1000" value="18000" aria-describedby="budget-hint" />
+                  <div class="range-labels"><span>轻预算 · ¥3,000</span><span>舒适线 · ¥25,000</span><span>体验优先 · ¥80,000+</span></div>
+                </div>
+                <p class="range-hint" id="budget-hint"><span>当前档位：舒适探索</span><b>覆盖交通、住宿和日常体验</b></p>
+              </div>
+
+              <div class="three-col">
+                <label class="input-label">住宿偏好
+                  <select><option>青旅 / 民宿</option><option selected>舒适型酒店</option><option>高端酒店</option><option>度假村</option><option>公寓式住宿</option></select>
+                </label>
+                <label class="input-label">节奏
+                  <select><option>慢住一地</option><option selected>适中</option><option>高强度打卡</option></select>
+                </label>
+                <label class="input-label">预算弹性
+                  <select><option>不能超支</option><option selected>可上浮 10%</option><option>体验优先</option></select>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-step" data-step="3" role="tabpanel" hidden>
+              <div class="field-label-row">
+                <label>这次旅行最想获得什么？</label>
+                <span class="selection-count"><b id="interest-count">6</b> 项已选</span>
+              </div>
+              <div class="interest-grid" id="interest-grid">
+                <button type="button" data-interest="地方美食" class="interest-tile selected" aria-pressed="true"><span>🍜</span><b>地方美食</b><small>街头小吃、菜市场</small></button>
+                <button type="button" data-interest="精致餐饮" class="interest-tile" aria-pressed="false"><span>🍽️</span><b>精致餐饮</b><small>名厨、酒庄、咖啡</small></button>
+                <button type="button" data-interest="自然风景" class="interest-tile selected" aria-pressed="true"><span>🏔️</span><b>自然风景</b><small>山川、森林、湖泊</small></button>
+                <button type="button" data-interest="徒步露营" class="interest-tile selected" aria-pressed="true"><span>🥾</span><b>徒步露营</b><small>步道、观星、户外</small></button>
+                <button type="button" data-interest="海岛海边" class="interest-tile" aria-pressed="false"><span>🏝️</span><b>海岛海边</b><small>游泳、潜水、冲浪</small></button>
+                <button type="button" data-interest="运动康养" class="interest-tile" aria-pressed="false"><span>🧘</span><b>运动康养</b><small>跑步、瑜伽、温泉</small></button>
+                <button type="button" data-interest="历史人文" class="interest-tile selected" aria-pressed="true"><span>🏛️</span><b>历史人文</b><small>古城、博物馆、遗产</small></button>
+                <button type="button" data-interest="寺庙建筑" class="interest-tile" aria-pressed="false"><span>⛩️</span><b>寺庙建筑</b><small>宗教、园林、设计</small></button>
+                <button type="button" data-interest="都市CBD" class="interest-tile" aria-pressed="false"><span>🌆</span><b>都市 CBD</b><small>天际线、设计、科技</small></button>
+                <button type="button" data-interest="购物免税" class="interest-tile" aria-pressed="false"><span>🛍️</span><b>购物免税</b><small>商圈、折扣村、退税</small></button>
+                <button type="button" data-interest="本地生活" class="interest-tile selected" aria-pressed="true"><span>🧺</span><b>本地生活</b><small>社区、民俗、手作</small></button>
+                <button type="button" data-interest="小众摄影" class="interest-tile selected" aria-pressed="true"><span>📷</span><b>小众摄影</b><small>秘境、街拍、日出</small></button>
+                <button type="button" data-interest="夜生活" class="interest-tile" aria-pressed="false"><span>🎶</span><b>夜生活</b><small>酒吧、演出、节庆</small></button>
+                <button type="button" data-interest="亲子乐园" class="interest-tile" aria-pressed="false"><span>🎡</span><b>亲子乐园</b><small>动物园、科普、乐园</small></button>
+                <button type="button" data-interest="冰雪运动" class="interest-tile" aria-pressed="false"><span>⛷️</span><b>冰雪运动</b><small>滑雪、雪景、极光</small></button>
+                <button type="button" data-interest="数字游民" class="interest-tile" aria-pressed="false"><span>💻</span><b>旅居办公</b><small>网速、时差、长住</small></button>
+              </div>
+            </div>
+
+            <div class="form-step" data-step="4" role="tabpanel" hidden>
+              <p class="step-note">没有好坏之分。滑到更接近你的状态，推荐会随之变化。</p>
+              <div class="personality-list">
+                <label class="spectrum-row" data-left="独处" data-right="社交">
+                  <span><b>独处充电</b><small>I 型体验</small></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向独处</output><input class="smart-range" type="range" min="0" max="100" value="28" aria-label="独处或社交偏好" /></span>
+                  <span class="right"><b>社交充电</b><small>E 型体验</small></span>
+                </label>
+                <label class="spectrum-row" data-left="经典" data-right="探索">
+                  <span><b>经典稳妥</b><small>大众但不踩雷</small></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向探索</output><input class="smart-range" type="range" min="0" max="100" value="68" aria-label="经典或小众偏好" /></span>
+                  <span class="right"><b>冷门探索</b><small>愿意承担不确定性</small></span>
+                </label>
+                <label class="spectrum-row" data-left="安静" data-right="热闹">
+                  <span><b>安静松弛</b><small>避开喧闹</small></span>
+                  <span class="spectrum-control"><output class="spectrum-state">明显偏安静</output><input class="smart-range" type="range" min="0" max="100" value="22" aria-label="安静或热闹偏好" /></span>
+                  <span class="right"><b>热闹高能</b><small>活动与夜生活</small></span>
+                </label>
+                <label class="spectrum-row" data-left="规划" data-right="随性">
+                  <span><b>规划明确</b><small>提前订好</small></span>
+                  <span class="spectrum-control"><output class="spectrum-state">较为平衡</output><input class="smart-range" type="range" min="0" max="100" value="44" aria-label="计划或随性偏好" /></span>
+                  <span class="right"><b>随性即兴</b><small>临场决定</small></span>
+                </label>
+                <label class="spectrum-row" data-left="慢游" data-right="高密度">
+                  <span><b>慢节奏</b><small>留白和休息</small></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向慢游</output><input class="smart-range" type="range" min="0" max="100" value="37" aria-label="慢速或紧凑偏好" /></span>
+                  <span class="right"><b>高密度</b><small>每天安排丰富</small></span>
+                </label>
+              </div>
+
+              <div class="field-group top-gap">
+                <label>哪些因素会让你直接放弃一个目的地？</label>
+                <div class="choice-row wrap">
+                  <button class="choice-chip selected" type="button" aria-pressed="true">治安风险高</button>
+                  <button class="choice-chip selected" type="button" aria-pressed="true">极端天气</button>
+                  <button class="choice-chip selected" type="button" aria-pressed="true">过度拥挤</button>
+                  <button class="choice-chip" type="button" aria-pressed="false">语言不便</button>
+                  <button class="choice-chip" type="button" aria-pressed="false">卫生条件一般</button>
+                  <button class="choice-chip" type="button" aria-pressed="false">长距离步行</button>
+                  <button class="choice-chip" type="button" aria-pressed="false">夜间不便</button>
+                  <button class="choice-chip" type="button" aria-pressed="false">饮食受限</button>
+                </div>
+              </div>
+
+              <div class="place-memory-card">
+                <div class="field-label-row">
+                  <div><label for="memory-place-input">去过或不想再看到的地方</label><p>会从推荐中隐藏；之后可以随时恢复。</p></div>
+                  <button class="text-help" id="open-exclusions-from-form" type="button">管理清单</button>
+                </div>
+                <div class="memory-add-row">
+                  <input id="memory-place-input" list="place-suggestions" placeholder="输入国家、城市或地区" autocomplete="off" />
+                  <select id="memory-place-type" aria-label="选择记录类型">
+                    <option value="visited">我去过</option>
+                    <option value="not_interested">不想去</option>
+                    <option value="avoid">永久避雷</option>
+                  </select>
+                  <button class="secondary-button" id="add-memory-place" type="button">加入清单</button>
+                </div>
+                <datalist id="place-suggestions"><option value="日本"></option><option value="马德拉群岛"></option><option value="斯洛文尼亚"></option><option value="新西兰"></option><option value="巴黎"></option><option value="巴厘岛"></option></datalist>
+                <div class="memory-tag-list" id="memory-tag-list" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="form-step" data-step="5" role="tabpanel" hidden>
+              <div class="field-label-row"><label>愿意使用的交通方式</label><span class="selection-count">可多选</span></div>
+              <div class="transport-grid">
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>✈️</span><b>飞机</b><small>接受转机 1 次</small></button>
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚆</span><b>火车</b><small>偏好沿途风景</small></button>
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚗</span><b>自驾</b><small>每天 ≤ 3 小时</small></button>
+                <button type="button" class="transport-tile" aria-pressed="false"><span>🏍️</span><b>摩托</b><small>需核验驾照</small></button>
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚲</span><b>骑行</b><small>休闲路线</small></button>
+                <button type="button" class="transport-tile" aria-pressed="false"><span>⛴️</span><b>轮渡</b><small>可接受过夜</small></button>
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚌</span><b>公共交通</b><small>地铁、公交、巴士</small></button>
+                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚶</span><b>步行</b><small>每天约 15,000 步</small></button>
+              </div>
+
+              <div class="three-col top-gap">
+                <label class="input-label">最长单程飞行
+                  <select><option>5 小时内</option><option selected>10 小时内</option><option>15 小时内</option><option>不限</option></select>
+                </label>
+                <label class="input-label">转机接受度
+                  <select><option>只要直飞</option><option selected>最多 1 次</option><option>价格优先</option></select>
+                </label>
+                <label class="input-label">驾驶条件
+                  <select><option selected>可右舵，需自动挡</option><option>只接受左舵</option><option>不考虑自驾</option></select>
+                </label>
+              </div>
+              <label class="switch-line"><span><b>国际驾照或翻译件</b><small>愿意在出发前办理</small></span><input type="checkbox" checked /><i class="switch-ui" aria-hidden="true"></i></label>
+              <label class="switch-line"><span><b>低体力 / 无障碍路线</b><small>减少楼梯、坡度和长距离步行</small></span><input type="checkbox" /><i class="switch-ui" aria-hidden="true"></i></label>
+              <label class="switch-line"><span><b>减少换乘</b><small>携带大件行李，优先门到门便利</small></span><input type="checkbox" /><i class="switch-ui" aria-hidden="true"></i></label>
+            </div>
+
+            <div class="planner-footer">
+              <button class="ghost-button" id="prev-step" type="button" disabled>上一步</button>
+              <span class="save-status">自动保存到本机</span>
+              <button class="primary-button" id="next-step" type="button">下一步 <span>→</span></button>
+              <button class="primary-button analyze-button" id="analyze" type="submit" hidden>生成我的目的地 <span>✦</span></button>
+            </div>
+          </form>
+        </section>
+      </section>
+
+      <section class="signal-strip" aria-label="推荐数据维度">
+        <div><span>🛂</span><p><b>证件可达性</b><small>多护照与签证组合</small></p></div>
+        <div><span>☀️</span><p><b>天气窗口</b><small>舒适度与灾害风险</small></p></div>
+        <div><span>◉</span><p><b>安全与新闻</b><small>结合身份与出发地</small></p></div>
+        <div><span>¥</span><p><b>真实总成本</b><small>交通住宿到小费税费</small></p></div>
+        <div><span>♟</span><p><b>人流与节奏</b><small>高峰、活动与承载力</small></p></div>
+      </section>
+
+      <section class="results-section" id="results" aria-labelledby="results-title">
+        <div class="results-shell">
+          <div class="results-topline">
+            <div>
+              <p class="eyebrow">你的动态清单 · 演示结果</p>
+              <h2 id="results-title">这 4 个地方，现在更适合你</h2>
+              <p>综合 36 项信号计算；证件与安全信息在预订前仍需通过官方渠道复核。</p>
+            </div>
+            <div class="freshness-card"><span class="pulse"></span><p><b>数据状态良好</b><small>天气 12 分钟前 · 价格 24 小时前</small></p></div>
+          </div>
+
+          <div class="context-bar">
+            <span>从 <b id="context-origin">上海</b> 出发</span>
+            <span><b id="context-days">7–10 天</b></span>
+            <span>人均 <b id="context-budget">¥18,000</b></span>
+            <span>偏好 <b id="context-interest">自然、徒步、本地生活</b></span>
+            <button type="button" id="edit-preferences">修改偏好</button>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-scroll" aria-label="结果筛选">
+              <button type="button" class="filter-chip active" data-filter="all" aria-pressed="true">全部推荐</button>
+              <button type="button" class="filter-chip" data-filter="document" aria-pressed="false">证件已覆盖</button>
+              <button type="button" class="filter-chip" data-filter="quiet" aria-pressed="false">相对安静</button>
+              <button type="button" class="filter-chip" data-filter="nature" aria-pressed="false">自然徒步</button>
+              <button type="button" class="filter-chip" data-filter="transit" aria-pressed="false">公共交通好</button>
+              <button type="button" class="filter-chip" data-filter="drive" aria-pressed="false">适合自驾</button>
+            </div>
+            <div class="result-tools">
+              <button class="exclusion-manager-button" id="manage-exclusions" type="button"><span>⊘</span> 去过与避雷 <b id="exclusion-count">0</b></button>
+              <label class="sort-label">排序
+                <select id="sort-results"><option value="match">综合匹配</option><option value="cost">预算从低到高</option><option value="crowd">人流从少到多</option><option value="travel">路程从短到长</option></select>
+              </label>
+            </div>
+          </div>
+
+          <div class="results-layout">
+            <div class="destination-list" id="destination-list" aria-live="polite"></div>
+
+            <aside class="intelligence-panel" aria-labelledby="signals-title">
+              <div class="aside-heading"><div><p class="eyebrow">动态情报</p><h3 id="signals-title">影响本次推荐的信号</h3></div><span class="demo-badge">示例数据</span></div>
+              <article class="signal-item weather">
+                <span class="signal-icon">☀</span>
+                <div><b>你的日期正值肩季</b><p>南欧热浪风险回落，阿尔卑斯地区徒步条件仍较稳定。</p><small>天气模型 · 12 分钟前</small></div>
+              </article>
+              <article class="signal-item crowd">
+                <span class="signal-icon">♟</span>
+                <div><b>避开两个大型活动周末</b><p>已降低活动周末的城市权重，预计住宿均价可减少 18%。</p><small>活动与酒店库存 · 3 小时前</small></div>
+              </article>
+              <article class="signal-item safety">
+                <span class="signal-icon">◉</span>
+                <div><b>暂无直接相关高风险提示</b><p>仍建议查看外交、卫生和自然灾害类官方出行提醒。</p><small>官方旅行建议 · 6 小时前</small></div>
+              </article>
+              <article class="signal-item route">
+                <span class="signal-icon">↗</span>
+                <div><b>上海出发的联程价格下降</b><p>近 7 日示例价格信号利好日本与中欧方向。</p><small>航线价格趋势 · 1 天前</small></div>
+              </article>
+              <button class="secondary-button full" type="button" id="signal-method">查看信号来源与局限</button>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div class="method-copy">
+          <p class="eyebrow">可解释，而不是神秘分数</p>
+          <h2 id="method-title">每个推荐，都告诉你“为什么”</h2>
+          <p>先排除证件、时间、安全和预算上的硬冲突，再根据兴趣、个性、交通与实时环境排序。你可以看到加分项、减分项和不确定信息。</p>
+          <a href="#planner" class="text-link">重新设置一次偏好 <span>→</span></a>
+        </div>
+        <div class="method-flow" aria-label="推荐流程">
+          <article><span>01</span><div><b>硬条件筛选</b><small>证件 · 日期 · 预算 · 可达性</small></div></article>
+          <article><span>02</span><div><b>软偏好匹配</b><small>兴趣 · 个性 · 节奏 · 交通</small></div></article>
+          <article><span>03</span><div><b>实时风险校正</b><small>天气 · 新闻 · 人流 · 价格</small></div></article>
+          <article><span>04</span><div><b>解释与行动</b><small>理由 · 预算 · 路线 · 核验事项</small></div></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="brand footer-brand"><span class="brand-mark">远</span><span><b>远择</b><small>FARWISE</small></span></div>
+      <p>原型展示 · 不构成签证、医疗、法律或安全建议。关键规则请以各国官方信息为准。</p>
+      <a href="#top">回到顶部 ↑</a>
+    </footer>
+
+    <dialog id="destination-dialog" class="detail-dialog">
+      <div id="dialog-content"></div>
+      <button class="dialog-close" type="button" aria-label="关闭详情">×</button>
+    </dialog>
+
+    <dialog id="method-dialog" class="method-dialog">
+      <div class="modal-pad">
+        <p class="eyebrow">透明度说明</p>
+        <h2>哪些信号能信，哪些要再核验？</h2>
+        <div class="source-grid">
+          <article><b>优先使用官方源</b><p>签证、边境、旅行警示、公共卫生、自然灾害与交通运营状态。</p></article>
+          <article><b>价格只是估算</b><p>机酒价格随库存和个性化报价变化，最终以下单页面为准。</p></article>
+          <article><b>新闻必须做相关性判断</b><p>按目的地、日期、旅行者身份和实际路线筛选，避免制造无关焦虑。</p></article>
+          <article><b>标记不确定性</b><p>过期、冲突或覆盖不足的信息会降低置信度，而不是假装精确。</p></article>
+        </div>
+        <button class="primary-button modal-confirm" type="button">知道了</button>
+      </div>
+    </dialog>
+
+    <dialog id="feedback-dialog" class="feedback-dialog">
+      <form method="dialog" class="feedback-panel" id="feedback-form">
+        <div class="dialog-kicker">调整你的推荐</div>
+        <h2 id="feedback-title">为什么不想看到这里？</h2>
+        <p>你的选择会立即隐藏这个目的地，并用于减少相似推荐。</p>
+        <div class="feedback-options" role="radiogroup" aria-labelledby="feedback-title">
+          <label><input type="radio" name="feedback-reason" value="visited" checked /><span><b>✓ 我去过</b><small>默认隐藏，但允许以后标记“想重游”</small></span></label>
+          <label><input type="radio" name="feedback-reason" value="not_interested" /><span><b>– 不感兴趣</b><small>隐藏这里，并降低相似目的地权重</small></span></label>
+          <label><input type="radio" name="feedback-reason" value="avoid" /><span><b>⊘ 永久避雷</b><small>除非手动恢复，否则不再推荐</small></span></label>
+          <label><input type="radio" name="feedback-reason" value="too_expensive" /><span><b>¥ 太贵</b><small>隐藏这里，并优先推荐更低预算方案</small></span></label>
+          <label><input type="radio" name="feedback-reason" value="too_far" /><span><b>↗ 路上太久</b><small>降低长途或多次转机目的地权重</small></span></label>
+          <label><input type="radio" name="feedback-reason" value="too_crowded" /><span><b>♟ 太拥挤</b><small>提高安静和错峰目的地权重</small></span></label>
+        </div>
+        <div class="dialog-actions"><button class="ghost-button" value="cancel">取消</button><button class="primary-button" id="confirm-feedback" value="default">隐藏并调整推荐</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="exclusion-dialog" class="exclusion-dialog">
+      <div class="exclusion-panel">
+        <div class="dialog-kicker">你的旅行记忆</div>
+        <div class="exclusion-title-row"><div><h2>去过、避雷与不感兴趣</h2><p>这些状态可以同时存在；“避雷”优先级最高。</p></div><button class="dialog-x" id="close-exclusions" type="button" aria-label="关闭">×</button></div>
+        <div class="exclusion-settings">
+          <label class="switch-line compact"><span><b>隐藏去过的地方</b><small>关闭后可把它们作为重游候选</small></span><input id="hide-visited-switch" type="checkbox" checked /><i class="switch-ui" aria-hidden="true"></i></label>
+          <label class="switch-line compact"><span><b>相似目的地降权</b><small>根据避雷原因减少同类推荐</small></span><input id="downrank-similar-switch" type="checkbox" checked /><i class="switch-ui" aria-hidden="true"></i></label>
+        </div>
+        <div class="exclusion-list" id="exclusion-list"></div>
+        <div class="dialog-actions"><button class="text-button danger" id="clear-exclusions" type="button">清空全部</button><button class="primary-button" id="done-exclusions" type="button">完成</button></div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
