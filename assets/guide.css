@@ -1,0 +1,800 @@
+/* 攻略与指南页共享样式。依赖 styles.css 提供的设计令牌、页头与页脚。 */
+
+.guide-page main {
+  display: block;
+}
+
+/* —— 顶部横幅 —— */
+.guide-hero {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(46px, 8vw, 92px) clamp(22px, 5vw, 90px) clamp(38px, 6vw, 70px);
+  color: white;
+  background-image: url("travel-hero.jpg");
+  background-image: image-set(url("travel-hero.webp") type("image/webp"), url("travel-hero.jpg") type("image/jpeg"));
+  background-size: cover;
+  background-position: 60% 45%;
+}
+
+.guide-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(112deg, rgba(6, 34, 33, 0.94) 0%, rgba(8, 45, 44, 0.82) 46%, rgba(13, 59, 58, 0.55) 100%);
+}
+
+.guide-hero .breadcrumb {
+  margin: 0 0 18px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.guide-hero .breadcrumb a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+
+.guide-hero .breadcrumb a:hover {
+  color: var(--coral);
+}
+
+.guide-hero .eyebrow {
+  margin: 0 0 12px;
+  color: #ffd9cd;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.guide-hero h1 {
+  margin: 0;
+  max-width: 21em;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(26px, 4.6vw, 44px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+}
+
+.guide-hero .hero-lede {
+  margin: 16px 0 0;
+  max-width: 46em;
+  font-size: clamp(13px, 1.6vw, 15px);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-facts li {
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(6, 31, 30, 0.42);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(6px);
+}
+
+.hero-facts b {
+  color: #ffc9b8;
+  font-weight: 800;
+}
+
+/* —— 正文版面 —— */
+.guide-body {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vw, 58px) clamp(20px, 4.5vw, 44px) clamp(46px, 6vw, 80px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 292px;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.guide-article {
+  min-width: 0;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: #223734;
+}
+
+.guide-article > h2 {
+  margin: clamp(34px, 5vw, 48px) 0 14px;
+  padding-top: 10px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(20px, 2.6vw, 26px);
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.guide-article > h2:first-child {
+  margin-top: 0;
+}
+
+.guide-article h2 .section-index {
+  margin-right: 10px;
+  color: var(--coral-dark);
+  font-size: 0.72em;
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.guide-article h3 {
+  margin: 26px 0 10px;
+  font-size: 16.5px;
+  color: var(--ink);
+}
+
+.guide-article p {
+  margin: 0 0 14px;
+}
+
+.guide-article ul,
+.guide-article ol {
+  margin: 0 0 16px;
+  padding-left: 1.35em;
+}
+
+.guide-article li {
+  margin-bottom: 7px;
+}
+
+.guide-article li::marker {
+  color: var(--coral-dark);
+  font-weight: 700;
+}
+
+.guide-article strong {
+  color: var(--ink);
+}
+
+.guide-article a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(47, 125, 119, 0.4);
+}
+
+.guide-article a:hover {
+  color: var(--coral-dark);
+  text-decoration-color: currentColor;
+}
+
+/* 摘要卡：适合谁 / 不适合谁 */
+.fit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0 8px;
+}
+
+.fit-card {
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+}
+
+.fit-card.fit-yes {
+  border-color: rgba(42, 138, 103, 0.35);
+  background: linear-gradient(180deg, #f2faf6, #ffffff);
+}
+
+.fit-card.fit-no {
+  border-color: rgba(223, 81, 51, 0.28);
+  background: linear-gradient(180deg, #fdf5f2, #ffffff);
+}
+
+.fit-card b {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+}
+
+.fit-card.fit-yes b { color: var(--success); }
+.fit-card.fit-no b { color: var(--coral-dark); }
+
+.fit-card ul {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* 提示块 */
+.note-block {
+  margin: 18px 0;
+  padding: 15px 18px;
+  border-left: 4px solid var(--warning);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: #fdf8ec;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.note-block.note-info {
+  border-left-color: var(--teal);
+  background: #eef6f3;
+}
+
+.note-block b {
+  color: var(--ink);
+}
+
+/* 数据表（预算等） */
+.guide-table-wrap {
+  margin: 16px 0 20px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+}
+
+.guide-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.guide-table caption {
+  padding: 12px 16px 4px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.guide-table th,
+.guide-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.guide-table thead th {
+  background: var(--mint);
+  color: var(--deep);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.guide-table tbody tr:last-child th,
+.guide-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.guide-table tbody tr.table-total {
+  background: #fbf7ef;
+  font-weight: 700;
+}
+
+.guide-table td.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 行程时间线 */
+.itinerary {
+  margin: 18px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.itinerary li {
+  position: relative;
+  margin: 0;
+  padding: 14px 16px 14px 62px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  background: var(--white);
+  font-size: 13.5px;
+}
+
+.itinerary li:first-child {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.itinerary li:last-child {
+  border-bottom: 1px solid var(--line);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.itinerary .day {
+  position: absolute;
+  left: 14px;
+  top: 15px;
+  display: inline-block;
+  min-width: 36px;
+  padding: 3px 0;
+  border-radius: 8px;
+  background: var(--deep);
+  color: #d8efe8;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+.itinerary b {
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* FAQ */
+.faq-list {
+  margin: 18px 0 6px;
+}
+
+.faq-list details {
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+}
+
+.faq-list summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::before {
+  content: "﹢";
+  margin-right: 10px;
+  color: var(--coral-dark);
+  font-weight: 800;
+}
+
+.faq-list details[open] summary::before {
+  content: "﹣";
+}
+
+.faq-list details > div {
+  padding: 0 18px 15px 40px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #33504c;
+}
+
+/* CTA 区块 */
+.guide-cta {
+  margin: clamp(34px, 5vw, 48px) 0 8px;
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: var(--radius-xl);
+  color: white;
+  background:
+    radial-gradient(120% 160% at 100% 0%, rgba(255, 107, 74, 0.35), transparent 55%),
+    linear-gradient(120deg, var(--deep-2), var(--deep));
+}
+
+.guide-cta h2 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(19px, 2.6vw, 24px);
+}
+
+.guide-cta p {
+  margin: 0 0 18px;
+  max-width: 42em;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.guide-cta .primary-button {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.guide-cta .primary-button:hover {
+  background: var(--coral-dark);
+  transform: translateY(-1px);
+}
+
+/* —— 侧栏 —— */
+.guide-aside {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 18px;
+}
+
+.aside-card {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+  font-size: 13px;
+}
+
+.aside-card > b {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.aside-card .toc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aside-card .toc li {
+  margin: 0;
+}
+
+.aside-card .toc a {
+  display: block;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--line);
+  color: #33504c;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.aside-card .toc li:last-child a {
+  border-bottom: 0;
+}
+
+.aside-card .toc a:hover {
+  color: var(--coral-dark);
+}
+
+.aside-card dl {
+  margin: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.aside-card dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.aside-card dl div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.aside-card dt {
+  color: var(--muted);
+}
+
+.aside-card dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  color: var(--ink);
+}
+
+.aside-card.aside-cta {
+  border-color: rgba(255, 107, 74, 0.3);
+  background: linear-gradient(180deg, #fff4ef, #ffffff);
+}
+
+.aside-card.aside-cta p {
+  margin: 0 0 12px;
+  line-height: 1.7;
+}
+
+.aside-card.aside-cta a {
+  display: inline-block;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.aside-card.aside-cta a:hover {
+  background: var(--coral-dark);
+}
+
+/* —— 相关推荐 —— */
+.related-section {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4.5vw, 44px) clamp(52px, 7vw, 88px);
+}
+
+.related-section > h2 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(19px, 2.4vw, 24px);
+  color: var(--ink);
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.related-card {
+  display: block;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.related-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(47, 125, 119, 0.4);
+  box-shadow: var(--shadow);
+}
+
+.related-card .kicker {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--coral-dark);
+  text-transform: uppercase;
+}
+
+.related-card b {
+  display: block;
+  margin-bottom: 6px;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 16.5px;
+  color: var(--ink);
+}
+
+.related-card p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.related-card .go {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+/* —— 目录页（destinations/、guides/）—— */
+.hub-intro {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vw, 54px) clamp(20px, 4.5vw, 44px) 8px;
+}
+
+.hub-intro p {
+  max-width: 52em;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #33504c;
+}
+
+.hub-grid {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: clamp(18px, 3vw, 30px) clamp(20px, 4.5vw, 44px) clamp(52px, 7vw, 88px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--soft-shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.hub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.hub-card .hub-media {
+  position: relative;
+  isolation: isolate;
+  min-height: 168px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+  background-image: url("travel-hero.jpg");
+  background-image: image-set(url("travel-hero.webp") type("image/webp"), url("travel-hero.jpg") type("image/jpeg"));
+  background-size: cover;
+}
+
+.hub-card .hub-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(6, 31, 30, 0.05) 30%, rgba(6, 31, 30, 0.78));
+}
+
+.hub-card .hub-media.pos-a { background-position: 50% center; }
+.hub-card .hub-media.pos-b { background-position: 78% center; filter: saturate(0.9) hue-rotate(-8deg); }
+.hub-card .hub-media.pos-c { background-position: 18% center; filter: saturate(1.05); }
+.hub-card .hub-media.pos-d { background-position: 61% center; filter: hue-rotate(5deg) saturate(0.85); }
+
+.hub-card .hub-media b {
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 19px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+.hub-card .hub-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px 22px 20px;
+}
+
+.hub-card .kicker {
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--coral-dark);
+  text-transform: uppercase;
+}
+
+.hub-card p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #33504c;
+}
+
+.hub-card .hub-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: auto;
+}
+
+.hub-card .hub-meta span {
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--deep);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* 简版页头 CTA（无 JS 页面用） */
+.header-cta {
+  justify-self: end;
+  display: inline-block;
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: var(--deep);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.header-cta:hover {
+  background: var(--coral-dark);
+}
+
+/* 页脚多列链接 */
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  justify-content: center;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.footer-links a {
+  color: #b9d9d0;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--coral);
+}
+
+/* —— 响应式 —— */
+@media (max-width: 1020px) {
+  .guide-body {
+    grid-template-columns: 1fr;
+  }
+  .guide-aside {
+    position: static;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+  }
+  .fit-grid {
+    grid-template-columns: 1fr;
+  }
+  .guide-article {
+    font-size: 13.5px;
+  }
+  .site-footer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    justify-items: center;
+    text-align: center;
+  }
+  .site-footer > a {
+    justify-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .related-card,
+  .hub-card,
+  .guide-cta .primary-button {
+    transition: none;
+  }
+  .related-card:hover,
+  .hub-card:hover {
+    transform: none;
+  }
+}

@@ -210,6 +210,35 @@ const memoryLabels = {
   too_crowded: { label: "太拥挤", icon: "♟" },
 };
 
+const guidePages = {
+  slovenia: "destinations/slovenia/index.html",
+  fukuoka: "destinations/fukuoka/index.html",
+  madeira: "destinations/madeira/index.html",
+  newzealand: "destinations/new-zealand/index.html",
+};
+
+function shareDestination(id) {
+  const destination = destinations.find((item) => item.id === id);
+  if (!destination) return;
+  const target = new URL(guidePages[id] || "index.html", window.location.href);
+  target.searchParams.set("utm_source", "farwise");
+  target.searchParams.set("utm_medium", "share");
+  const url = target.href;
+  const payload = { title: `${destination.name}｜远择目的地攻略`, text: destination.tagline, url };
+  if (navigator.share) {
+    navigator.share(payload).catch(() => {});
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard
+      .writeText(url)
+      .then(() => showToast("攻略链接已复制，粘贴给同伴即可"))
+      .catch(() => showToast("复制失败，请从地址栏手动复制"));
+    return;
+  }
+  showToast("请从地址栏手动复制链接分享");
+}
+
 const elements = {
   form: document.querySelector("#recommendation-form"),
   stepTabs: [...document.querySelectorAll(".step-tab")],
@@ -694,6 +723,8 @@ function cardTemplate(destination) {
             <button class="save-button ${state.saved.has(destination.id) ? "saved" : ""}" type="button" data-save="${destination.id}">${state.saved.has(destination.id) ? "♥ 已收藏" : "♡ 收藏"}</button>
             <button class="save-button memory-button" type="button" data-visited="${destination.id}">✓ 去过</button>
             <button class="save-button memory-button avoid-button" type="button" data-feedback="${destination.id}">– 不想去</button>
+            <button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button>
+            <a class="guide-link" href="${guidePages[destination.id]}">📖 完整攻略</a>
             <button class="detail-button" type="button" data-detail="${destination.id}">查看详情 →</button>
           </div>
         </div>
@@ -782,7 +813,7 @@ function openDestination(id) {
       <section class="drawer-section"><h3>住、吃、移动与安全</h3><div class="info-grid">${destination.info.map(([title, detail]) => `<article class="info-card"><b>${title}</b><p>${detail}</p></article>`).join("")}</div></section>
       <section class="drawer-section"><h3>人均费用区间</h3><table class="budget-table"><thead><tr><th>项目</th><th>P50 常见预算</th><th>P90 保守预算</th></tr></thead><tbody>${budgetRows}</tbody></table></section>
       ${renderReviewSection(destination)}
-      <div class="drawer-footer"><p>演示价格不代表实时报价；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
+      <div class="drawer-footer"><p>演示价格不代表实时报价；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
     </div>`;
   if (!elements.dialog.open) {
     elements.dialog.showModal();
@@ -909,6 +940,9 @@ document.addEventListener("click", (event) => {
 
   const detail = event.target.closest("[data-detail]");
   if (detail) openDestination(detail.dataset.detail);
+
+  const share = event.target.closest("[data-share]");
+  if (share) shareDestination(share.dataset.share);
 
   const save = event.target.closest("[data-save], [data-dialog-save]");
   if (save) {

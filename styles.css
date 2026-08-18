@@ -336,9 +336,14 @@ h3 {
 .drawer-top,
 .drawer-footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.drawer-footer p {
+  flex: 1 1 100%;
 }
 
 .planner-heading h2 {
@@ -1204,6 +1209,25 @@ input[type="range"] {
   background: var(--deep);
 }
 
+.guide-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 750;
+  color: white;
+  background: var(--teal);
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.guide-link:hover {
+  background: var(--deep);
+}
+
 .intelligence-panel {
   position: sticky;
   top: 97px;
@@ -1652,7 +1676,8 @@ dialog::backdrop {
   .reason-grid { grid-template-columns: 1fr; gap: 9px; }
   .card-actions { align-items: flex-start; flex-direction: column; }
   .action-buttons { width: 100%; }
-  .action-buttons button { flex: 1; }
+  .action-buttons button,
+  .action-buttons a { flex: 1; }
   .method-section { padding: 70px 22px; }
   .method-flow { grid-template-columns: 1fr; }
   .site-footer { grid-template-columns: 1fr; gap: 22px; text-align: center; }
