@@ -30,13 +30,13 @@ const destinations = [
     travel: "约 15h · 转机 1 次",
     travelHours: 15,
     cost: 16600,
-    costRange: "¥14,800–18,400",
+    costRange: "$$$ · 进阶预算",
     tags: ["document", "quiet", "nature", "transit", "drive"],
     tagline: "安静、自然和本地生活的平衡点",
     reasons: ["湖区与轻徒步同时命中高优先兴趣", "首都尺度紧凑，适合独自慢游", "肩季人流与住宿价格更友好"],
     tradeoffs: ["上海通常无直飞", "山区天气切换较快"],
     docDetail: "原型按你填写的中国大陆护照与有效申根多次签证初筛；仍需核对签证有效期、停留天数、首次入境与过境要求。",
-    summary: ["匹配度 94", "8–10 天", "P50 ¥16,600", "天气较合适", "人流中低"],
+    summary: ["匹配度 94", "8–10 天", "$$$ 进阶", "天气较合适", "人流中低"],
     metrics: [
       ["兴趣匹配", 97, "非常符合"], ["预算稳健", 88, "P90 有余量"], ["氛围个性", 95, "安静而不无聊"],
       ["交通便利", 77, "跨境稍费时"], ["天气窗口", 91, "适合户外"], ["数据置信", 86, "需临近复核"],
@@ -44,12 +44,12 @@ const destinations = [
     info: [
       ["住在哪里", "首访可住老城边缘；更安静可选 Trnovo。湖区住一晚，减少当天往返。"],
       ["怎么移动", "市区步行与公交够用；卢布尔雅那至布莱德巴士方便，自驾适合延伸山谷。"],
-      ["吃什么", "中央市场、炖菜、奶酪与当地葡萄酒较有代表性；普通正餐约 ¥90–160。"],
+      ["吃什么", "中央市场、炖菜、奶酪与当地葡萄酒较有代表性；普通正餐中等价位，市场简餐更省。"],
       ["安全与习惯", "整体便利，但火车站周边夜间仍需看管随身物品；徒步注意天气和步道关闭。"],
       ["支付与网络", "银行卡接受度高，偏远小店可备少量欧元；城区网络覆盖稳定。"],
       ["当前核验事项", "查看山区降雨、Vintgar 步道开放状态、申根停留天数与联程行李规则。"],
     ],
-    budget: [["往返交通", "¥6,300", "¥8,000"], ["住宿 8 晚", "¥4,600", "¥5,900"], ["餐饮", "¥2,200", "¥3,000"], ["当地交通", "¥900", "¥1,600"], ["活动/保险/备用", "¥800", "¥1,700"], ["预计总计", "¥14,800", "¥20,200"]],
+    budget: [["往返交通", "$$$$", "约四成"], ["住宿 8 晚", "$$$", "约三成"], ["餐饮", "$$", "约一成半"], ["当地交通", "$", "不到一成"], ["活动/保险/备用", "$", "不到一成"], ["总体档位", "$$$", "进阶预算"]],
   },
   {
     id: "fukuoka",
@@ -68,13 +68,13 @@ const destinations = [
     travel: "约 2h · 可直飞",
     travelHours: 2,
     cost: 11800,
-    costRange: "¥9,600–14,000",
+    costRange: "$$ · 适中预算",
     tags: ["quiet", "transit"],
     tagline: "路程短、好吃、公共交通顺手",
     reasons: ["直飞降低独自旅行的行程摩擦", "小吃、市场与温泉贴合偏好", "城市便利与安静支线可以兼得"],
     tradeoffs: ["需要另行确认日本签证", "热门餐厅可能排队"],
     docDetail: "现有申根签证通常不能替代日本入境许可。原型无法确认你是否另持有效日本签证，请在预订前通过日本官方渠道核验。",
-    summary: ["匹配度 91", "6–8 天", "P50 ¥11,800", "温暖偏湿", "人流中等"],
+    summary: ["匹配度 91", "6–8 天", "$$ 适中", "温暖偏湿", "人流中等"],
     metrics: [["兴趣匹配", 92, "美食与温泉突出"], ["预算稳健", 95, "余量充足"], ["氛围个性", 86, "可动可静"], ["交通便利", 98, "直飞与铁路"], ["天气窗口", 79, "注意降雨"], ["数据置信", 82, "证件待确认"]],
     info: [
       ["住在哪里", "博多站周边换乘最省心；想更安静可住大濠公园一带；别府优先选可步行到车站的温泉旅馆。"],
@@ -84,7 +84,7 @@ const destinations = [
       ["支付与网络", "交通与连锁店电子支付便利，小店仍可能偏现金；eSIM 覆盖稳定。"],
       ["当前核验事项", "日本签证有效性、台风或强降雨概率、温泉设施纹身规则与末班车。"],
     ],
-    budget: [["往返交通", "¥2,200", "¥3,600"], ["住宿 7 晚", "¥3,500", "¥5,300"], ["餐饮", "¥2,100", "¥3,200"], ["当地交通", "¥900", "¥1,400"], ["活动/保险/备用", "¥900", "¥1,500"], ["预计总计", "¥9,600", "¥15,000"]],
+    budget: [["往返交通", "$$$", "约两成"], ["住宿 7 晚", "$$$$", "约三成半"], ["餐饮", "$$$", "约两成"], ["当地交通", "$$", "约一成"], ["活动/保险/备用", "$$", "约一成"], ["总体档位", "$$", "适中预算"]],
   },
   {
     id: "madeira",
@@ -103,13 +103,13 @@ const destinations = [
     travel: "约 19h · 转机 1–2 次",
     travelHours: 19,
     cost: 19400,
-    costRange: "¥17,200–22,800",
+    costRange: "$$$ · 进阶预算",
     tags: ["document", "quiet", "nature", "drive"],
     tagline: "海边、徒步和小众感全部拉满",
     reasons: ["Levada 步道高度匹配徒步偏好", "海岛节奏安静，避开大众团线", "自驾能覆盖不同微气候景观"],
     tradeoffs: ["预算 P90 可能超出目标", "转机时间较长"],
     docDetail: "原型按有效申根多次签证进行初筛；请确认签证覆盖葡萄牙、剩余停留天数、转机地入境要求及护照有效期。",
-    summary: ["匹配度 89", "8–11 天", "P50 ¥19,400", "温和多变", "人流中低"],
+    summary: ["匹配度 89", "8–11 天", "$$$ 进阶", "温和多变", "人流中低"],
     metrics: [["兴趣匹配", 99, "海岛徒步满分"], ["预算稳健", 70, "存在超支风险"], ["氛围个性", 96, "安静小众"], ["交通便利", 62, "长途转机"], ["天气窗口", 88, "微气候多变"], ["数据置信", 83, "机票波动较大"]],
     info: [
       ["住在哪里", "Funchal 最便利；São Vicente 更安静且靠近自然，但晚间餐饮和公交较少。"],
@@ -119,7 +119,7 @@ const destinations = [
       ["支付与网络", "城区刷卡便利，山地信号会有空白；离线地图和现金备用有帮助。"],
       ["当前核验事项", "步道封闭、风速和降雨、租车保险条款、山路驾驶能力及航班衔接。"],
     ],
-    budget: [["往返交通", "¥8,000", "¥11,000"], ["住宿 9 晚", "¥4,700", "¥6,800"], ["餐饮", "¥2,400", "¥3,400"], ["租车/油费/停车", "¥1,500", "¥2,400"], ["活动/保险/备用", "¥600", "¥1,600"], ["预计总计", "¥17,200", "¥25,200"]],
+    budget: [["往返交通", "$$$$", "近一半"], ["住宿 9 晚", "$$$", "约三成"], ["餐饮", "$$", "约一成半"], ["租车/油费/停车", "$$", "约一成"], ["活动/保险/备用", "$", "少量"], ["总体档位", "$$$", "进阶预算"]],
   },
   {
     id: "newzealand",
@@ -138,13 +138,13 @@ const destinations = [
     travel: "约 14h · 转机 1 次",
     travelHours: 14,
     cost: 25800,
-    costRange: "¥22,000–30,500",
+    costRange: "$$$$ · 高预算",
     tags: ["quiet", "nature", "drive"],
     tagline: "愿意多花时间和预算时的自然王牌",
     reasons: ["极低人流与辽阔自然非常匹配", "自驾、摄影、观星可组成完整主题", "路线弹性适合避开热门时段"],
     tradeoffs: ["明显超过当前预算", "左侧通行且驾驶距离长"],
     docDetail: "按中国大陆护照演示时通常需要提前取得新西兰入境许可；签证、健康、资金和返程证明要求请以新西兰官方渠道为准。",
-    summary: ["匹配度 86", "10–14 天", "P50 ¥25,800", "偏凉", "人流低"],
+    summary: ["匹配度 86", "10–14 天", "$$$$ 高预算", "偏凉", "人流低"],
     metrics: [["兴趣匹配", 98, "自然与摄影突出"], ["预算稳健", 52, "超出当前预算"], ["氛围个性", 99, "低人流"], ["交通便利", 68, "依赖自驾"], ["天气窗口", 73, "偏凉多风"], ["数据置信", 81, "租车价格浮动"]],
     info: [
       ["住在哪里", "基督城住市中心便于补给；湖区提前订可控预算，避开湖岸第一排通常更安静。"],
@@ -154,7 +154,7 @@ const destinations = [
       ["支付与网络", "刷卡普及；偏远公路和步道网络不稳定，下载离线地图与应急联系人。"],
       ["当前核验事项", "签证处理时间、国际驾照/翻译件、租车免赔额、山口天气和日落时间。"],
     ],
-    budget: [["往返交通", "¥7,300", "¥10,000"], ["住宿 11 晚", "¥6,800", "¥9,500"], ["餐饮", "¥2,800", "¥4,100"], ["租车/油费/停车", "¥3,500", "¥5,200"], ["活动/签证/保险", "¥1,600", "¥2,800"], ["预计总计", "¥22,000", "¥31,600"]],
+    budget: [["往返交通", "$$$$", "约三成"], ["住宿 11 晚", "$$$$", "约三成"], ["餐饮", "$$", "约一成多"], ["租车/油费/停车", "$$$", "约一成半"], ["活动/签证/保险", "$", "少量"], ["总体档位", "$$$$", "高预算"]],
   },
 ];
 
@@ -948,7 +948,7 @@ function cardTemplate(destination) {
           <div><h3>你可能会介意</h3><ul class="tradeoff-list">${destination.tradeoffs.map((item) => `<li>${item}</li>`).join("")}</ul></div>
         </div>
         <div class="card-actions">
-          <div class="price-estimate"><b>${destination.costRange}</b><small>人均总费用估算 · 含大交通与住宿</small><span class="traveler-rating"><b>★ ${reviews.rating}</b> · ${reviews.count} 条原型评论</span></div>
+          <div class="price-estimate"><b>${destination.costRange}</b><small>预算档位 · $ 越多越贵，含大交通与住宿</small><span class="traveler-rating"><b>★ ${reviews.rating}</b> · ${reviews.count} 条原型评论</span></div>
           <div class="action-buttons">
             <button class="save-button ${state.saved.has(destination.id) ? "saved" : ""}" type="button" data-save="${destination.id}">${state.saved.has(destination.id) ? "♥ 已收藏" : "♡ 收藏"}</button>
             <button class="save-button memory-button" type="button" data-visited="${destination.id}">✓ 去过</button>
@@ -1038,13 +1038,13 @@ function openDestination(id) {
       <p>${destination.tagline}。这是基于你本次填写的信息生成的演示判断，不代表对所有旅行者都适合。</p>
     </div>
     <div class="drawer-body">
-      <div class="drawer-summary">${destination.summary.map((value, index) => `<div><span>${["综合结果", "适合时长", "预计总价", "天气", "人流"][index]}</span><b>${value}</b></div>`).join("")}</div>
+      <div class="drawer-summary">${destination.summary.map((value, index) => `<div><span>${["综合结果", "适合时长", "预算档位", "天气", "人流"][index]}</span><b>${value}</b></div>`).join("")}</div>
       <section class="drawer-section"><h3>为什么适合我</h3><div class="metric-grid">${destination.metrics.map(([name, score, label]) => `<article class="metric-card"><div class="metric-title"><b>${name}</b><span>${label} · ${score}</span></div><div class="metric-bar"><i style="width:${score}%"></i></div></article>`).join("")}</div></section>
       <section class="drawer-section"><h3>能否顺利前往</h3><div class="info-card"><b>${destination.docState === "ok" ? "初筛：可能符合现有证件条件" : "初筛：仍需完成或确认手续"}</b><p>${destination.docDetail}</p></div></section>
       <section class="drawer-section"><h3>住、吃、移动与安全</h3><div class="info-grid">${destination.info.map(([title, detail]) => `<article class="info-card"><b>${title}</b><p>${detail}</p></article>`).join("")}</div></section>
-      <section class="drawer-section"><h3>人均费用区间</h3><table class="budget-table"><thead><tr><th>项目</th><th>P50 常见预算</th><th>P90 保守预算</th></tr></thead><tbody>${budgetRows}</tbody></table></section>
+      <section class="drawer-section"><h3>钱花在哪里</h3><table class="budget-table"><thead><tr><th>项目</th><th>档位</th><th>占总预算</th></tr></thead><tbody>${budgetRows}</tbody></table></section>
       ${renderReviewSection(destination)}
-      <div class="drawer-footer"><p>演示价格不代表实时报价；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-postcard="${destination.id}">📸 晒图卡</button><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
+      <div class="drawer-footer"><p>预算档位为相对估算（$ 经济 · $$ 适中 · $$$ 进阶 · $$$$ 高预算），实际价格以预订页面为准；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-postcard="${destination.id}">📸 晒图卡</button><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
     </div>`;
   if (!elements.dialog.open) {
     elements.dialog.showModal();
