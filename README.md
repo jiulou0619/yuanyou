@@ -27,12 +27,16 @@
 
 站内已做互链闭环：首页页脚 → 攻略；结果卡/详情弹窗 →「完整攻略」；攻略页 CTA → 推荐器；分享按钮生成带 UTM 的攻略链接（支持系统分享面板与复制链接）。
 
+**裂变机制：晒图卡。** 结果卡与详情弹窗的「📸 晒图卡」按钮会根据用户的性格滑杆生成「旅行人格」（隐路旅人 / 静水漫游者 / 野径玩家 / 都会节拍手），用 Canvas 纯前端绘制 1080×1440（3:4，适配小红书）的分享图：人格名 + 特质标签 + 最匹配目的地 + 匹配度环 + 站点地址。移动端走系统分享面板，桌面端直接下载 PNG，无需任何后端。
+
+**降低流失（ADHD 友好）**：问卷带进度条与剩余时间提示、「不想填表先看示例推荐」快速通道；每篇攻略顶部有「30 秒速览」摘要框 + 直达预算表/行程/清单的跳转按钮。
+
 ### 上线后第一周该做的事
 
 1. **提交搜索引擎**：在 [Google Search Console](https://search.google.com/search-console) 与 [Bing Webmaster Tools](https://www.bing.com/webmasters) 验证站点，提交 `https://jiulou0619.github.io/yuanyou/sitemap.xml`。百度对 github.io 收录有限，若主攻国内流量建议尽早绑定自定义域名。
 2. **接入统计**：所有页面底部都有 `analytics:slot` 注释占位。推荐 [Plausible](https://plausible.io/)（隐私友好）或 GA4。注意：站点默认 CSP 较严格，接入时需在**每个页面**的 CSP meta 中把统计域名加入 `script-src` 与 `connect-src`，例如 Plausible：`script-src 'self' https://plausible.io; connect-src 'self' https://plausible.io`。
 3. **社交分发**：每篇攻略都有独立 URL 与分享卡片（OG 图），适合发小红书/知乎/即刻/Twitter 时附链接；结果卡的「分享」按钮已带 UTM 参数，便于统计各渠道回流。
-4. **自定义域名（可选，强烈建议）**：在 Settings → Pages 绑定域名并开启 HTTPS 后，全局替换 `https://jiulou0619.github.io/yuanyou/` 为新域名（涉及 canonical、og:url、JSON-LD、sitemap.xml、robots.txt、404 页）。
+4. **自定义域名（可选，强烈建议）**：在 Settings → Pages 绑定域名并开启 HTTPS 后，全局替换 `https://jiulou0619.github.io/yuanyou/` 为新域名（涉及 canonical、og:url、JSON-LD、sitemap.xml、robots.txt、404 页，以及 `app.js` 中晒图卡底部绘制的站点地址）。
 
 ### 内容增长路线
 

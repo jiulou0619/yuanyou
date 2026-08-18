@@ -119,6 +119,9 @@
             </button>
           </div>
 
+          <div class="step-progress" aria-hidden="true"><i id="step-progress-fill"></i></div>
+          <p class="step-progress-text" id="step-progress-text" aria-live="polite">第 1 / 5 步 · 还剩约 80 秒</p>
+
           <form id="recommendation-form">
             <div class="form-step active" data-step="1" role="tabpanel" id="step-panel-1" aria-labelledby="step-tab-1">
               <div class="field-group">
@@ -353,6 +356,7 @@
               <button class="primary-button analyze-button" id="analyze" type="submit" hidden>生成我的目的地 <span>✦</span></button>
             </div>
           </form>
+          <a class="skip-to-results" href="#results">⚡ 不想填表？先看示例推荐，随时回来改 ↓</a>
         </section>
       </section>
 

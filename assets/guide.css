@@ -172,6 +172,60 @@
   text-decoration-color: currentColor;
 }
 
+/* 30 秒速览（低认知负荷摘要） */
+.tldr-box {
+  margin: 0 0 28px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 107, 74, 0.35);
+  border-left: 5px solid var(--coral);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #fff6f1, #ffffff);
+}
+
+.tldr-box > b {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+  color: var(--coral-dark);
+  letter-spacing: 0.06em;
+}
+
+.tldr-box ul {
+  margin: 0 0 14px;
+  padding-left: 1.2em;
+  font-size: 13.5px;
+  line-height: 1.9;
+}
+
+.tldr-box li {
+  margin-bottom: 4px;
+}
+
+.tldr-box strong {
+  color: var(--ink);
+}
+
+.tldr-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tldr-jump a {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--deep);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tldr-jump a:hover {
+  background: var(--deep);
+  color: #ffffff;
+}
+
 /* 摘要卡：适合谁 / 不适合谁 */
 .fit-grid {
   display: grid;

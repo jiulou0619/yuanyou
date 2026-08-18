@@ -239,6 +239,230 @@ function shareDestination(id) {
   showToast("请从地址栏手动复制链接分享");
 }
 
+// —— 旅行人格与晒图卡 ——
+
+function spectrumValue(key, fallback) {
+  const input = document.querySelector(`[data-spectrum="${key}"]`);
+  const value = input ? Number(input.value) : NaN;
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function personaProfile() {
+  const energy = spectrumValue("energy", 30);
+  const social = spectrumValue("social", 30);
+  const explore = spectrumValue("explore", 60);
+  const pace = spectrumValue("pace", 40);
+  const quiet = energy < 50;
+  const offbeat = explore >= 50;
+  const personas = {
+    "quiet-offbeat": ["隐路旅人", "避开人潮，去地图边缘找安静的好地方"],
+    "quiet-classic": ["静水漫游者", "经典目的地，也要走出自己的松弛节奏"],
+    "lively-offbeat": ["野径玩家", "热闹要有，冷门也要，体验密度拉满"],
+    "lively-classic": ["都会节拍手", "城市、夜色与人群，是你的充电方式"],
+  };
+  const key = `${quiet ? "quiet" : "lively"}-${offbeat ? "offbeat" : "classic"}`;
+  const traits = [
+    quiet ? "安静系" : "热闹系",
+    social < 50 ? "独行充电" : "结伴同行",
+    offbeat ? "小众探索" : "经典稳妥",
+    pace < 50 ? "慢节奏" : "高密度",
+  ];
+  return { name: personas[key][0], line: personas[key][1], traits };
+}
+
+function roundedPath(ctx, x, y, width, height, radius) {
+  if (typeof ctx.roundRect === "function") {
+    ctx.beginPath();
+    ctx.roundRect(x, y, width, height, radius);
+    return;
+  }
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.closePath();
+}
+
+function drawCover(ctx, img, x, y, width, height) {
+  const scale = Math.max(width / img.width, height / img.height);
+  const sw = width / scale;
+  const sh = height / scale;
+  ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) * 0.35, sw, sh, x, y, width, height);
+}
+
+const SANS = '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif';
+const SERIF = 'Georgia, "Songti SC", "Noto Serif SC", serif';
+
+function drawPostcard(ctx, destination, persona, heroImage) {
+  const W = 1080;
+  const H = 1440;
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#082d2c");
+  bg.addColorStop(1, "#0d3b3a");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  if (heroImage) {
+    ctx.save();
+    roundedPath(ctx, 0, 0, W, 560, 0);
+    ctx.clip();
+    drawCover(ctx, heroImage, 0, 0, W, 560);
+    const shade = ctx.createLinearGradient(0, 0, 0, 560);
+    shade.addColorStop(0, "rgba(8, 45, 44, 0.25)");
+    shade.addColorStop(0.72, "rgba(8, 45, 44, 0.55)");
+    shade.addColorStop(1, "#082d2c");
+    ctx.fillStyle = shade;
+    ctx.fillRect(0, 0, W, 560);
+    ctx.restore();
+  }
+
+  ctx.fillStyle = "#0d3b3a";
+  roundedPath(ctx, 72, 72, 84, 84, 24);
+  ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `600 44px ${SERIF}`;
+  ctx.textAlign = "center";
+  ctx.fillText("远", 114, 130);
+  ctx.textAlign = "left";
+  ctx.font = `700 40px ${SERIF}`;
+  ctx.fillText("远择", 180, 112);
+  ctx.font = `800 22px ${SANS}`;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+  ctx.fillText("F A R W I S E", 180, 148);
+
+  ctx.fillStyle = "#ffb59e";
+  ctx.font = `800 28px ${SANS}`;
+  ctx.fillText("我 的 旅 行 人 格", 72, 668);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `700 104px ${SERIF}`;
+  ctx.fillText(persona.name, 72, 788);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.82)";
+  ctx.font = `400 32px ${SANS}`;
+  ctx.fillText(persona.line, 72, 848);
+
+  let chipX = 72;
+  ctx.font = `700 27px ${SANS}`;
+  persona.traits.forEach((trait) => {
+    const width = ctx.measureText(trait).width + 56;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
+    roundedPath(ctx, chipX, 890, width, 62, 31);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.lineWidth = 2;
+    roundedPath(ctx, chipX, 890, width, 62, 31);
+    ctx.stroke();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(trait, chipX + 28, 931);
+    chipX += width + 18;
+  });
+
+  ctx.fillStyle = "#ffffff";
+  roundedPath(ctx, 60, 1010, 960, 268, 32);
+  ctx.fill();
+  ctx.fillStyle = "#df5133";
+  ctx.font = `800 24px ${SANS}`;
+  ctx.fillText(`✦ ${destination.rank}`, 104, 1072);
+  ctx.fillStyle = "#122625";
+  ctx.font = `700 54px ${SERIF}`;
+  ctx.fillText(destination.name, 104, 1140);
+  ctx.fillStyle = "#5a6965";
+  ctx.font = `400 28px ${SANS}`;
+  ctx.fillText(`${destination.country} · ${destination.route}`, 104, 1186);
+  ctx.font = `700 26px ${SANS}`;
+  ctx.fillStyle = "#2f7d77";
+  ctx.fillText(`${destination.duration} · ${destination.costRange} · 人流${destination.crowd}`, 104, 1236);
+
+  ctx.strokeStyle = "#f0e4dc";
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.arc(896, 1144, 74, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.strokeStyle = "#ff6b4a";
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.arc(896, 1144, 74, -Math.PI / 2, -Math.PI / 2 + (Math.PI * 2 * destination.score) / 100);
+  ctx.stroke();
+  ctx.fillStyle = "#122625";
+  ctx.textAlign = "center";
+  ctx.font = `800 52px ${SANS}`;
+  ctx.fillText(String(destination.score), 896, 1160);
+  ctx.font = `700 20px ${SANS}`;
+  ctx.fillStyle = "#5a6965";
+  ctx.fillText("匹配度", 896, 1192);
+  ctx.textAlign = "left";
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `700 30px ${SANS}`;
+  ctx.fillText("2 分钟测出你的下一站 →", 72, 1352);
+  ctx.fillStyle = "#ffb59e";
+  ctx.font = `700 30px ${SANS}`;
+  ctx.fillText("jiulou0619.github.io/yuanyou", 448, 1352);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+  ctx.font = `400 20px ${SANS}`;
+  ctx.fillText("演示数据 · 签证与价格以官方信息为准", 72, 1396);
+}
+
+let postcardBusy = false;
+
+function generatePostcard(id) {
+  const destination = destinations.find((item) => item.id === id);
+  if (!destination || postcardBusy) return;
+  postcardBusy = true;
+  showToast("正在生成晒图卡…");
+  const heroImage = new Image();
+  const build = (withImage) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1440;
+    drawPostcard(canvas.getContext("2d"), destination, personaProfile(), withImage ? heroImage : null);
+    return canvas;
+  };
+  const render = () => {
+    try {
+      let canvas = build(Boolean(heroImage.complete && heroImage.naturalWidth));
+      try {
+        // file:// 协议下图片会污染画布导致导出被拒；退回纯配色版本。
+        canvas.getContext("2d").getImageData(0, 0, 1, 1);
+      } catch (taintError) {
+        canvas = build(false);
+      }
+      canvas.toBlob(async (blob) => {
+        postcardBusy = false;
+        if (!blob) {
+          showToast("生成失败，请换个浏览器重试");
+          return;
+        }
+        const file = new File([blob], `farwise-${id}.png`, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: "远择 FARWISE 旅行人格卡" });
+            return;
+          } catch (error) {
+            if (error && error.name === "AbortError") return;
+          }
+        }
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `farwise-${id}.png`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        showToast("晒图卡已保存，发小红书或朋友圈吧");
+      }, "image/png");
+    } catch (error) {
+      postcardBusy = false;
+      showToast("生成失败，请重试");
+    }
+  };
+  heroImage.onload = render;
+  heroImage.onerror = render;
+  heroImage.src = "assets/travel-hero.jpg";
+}
+
 const elements = {
   form: document.querySelector("#recommendation-form"),
   stepTabs: [...document.querySelectorAll(".step-tab")],
@@ -294,6 +518,12 @@ function setStep(nextStep) {
   elements.prev.disabled = state.step === 1;
   elements.next.hidden = state.step === 5;
   elements.analyze.hidden = state.step !== 5;
+  const fill = document.querySelector("#step-progress-fill");
+  const text = document.querySelector("#step-progress-text");
+  if (fill) fill.style.width = `${(state.step / 5) * 100}%`;
+  if (text) {
+    text.textContent = state.step === 5 ? "最后一步！设置交通偏好就能看结果" : `第 ${state.step} / 5 步 · 还剩约 ${(5 - state.step) * 20} 秒`;
+  }
 }
 
 function renderTags(type) {
@@ -723,6 +953,7 @@ function cardTemplate(destination) {
             <button class="save-button ${state.saved.has(destination.id) ? "saved" : ""}" type="button" data-save="${destination.id}">${state.saved.has(destination.id) ? "♥ 已收藏" : "♡ 收藏"}</button>
             <button class="save-button memory-button" type="button" data-visited="${destination.id}">✓ 去过</button>
             <button class="save-button memory-button avoid-button" type="button" data-feedback="${destination.id}">– 不想去</button>
+            <button class="save-button" type="button" data-postcard="${destination.id}">📸 晒图卡</button>
             <button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button>
             <a class="guide-link" href="${guidePages[destination.id]}">📖 完整攻略</a>
             <button class="detail-button" type="button" data-detail="${destination.id}">查看详情 →</button>
@@ -813,7 +1044,7 @@ function openDestination(id) {
       <section class="drawer-section"><h3>住、吃、移动与安全</h3><div class="info-grid">${destination.info.map(([title, detail]) => `<article class="info-card"><b>${title}</b><p>${detail}</p></article>`).join("")}</div></section>
       <section class="drawer-section"><h3>人均费用区间</h3><table class="budget-table"><thead><tr><th>项目</th><th>P50 常见预算</th><th>P90 保守预算</th></tr></thead><tbody>${budgetRows}</tbody></table></section>
       ${renderReviewSection(destination)}
-      <div class="drawer-footer"><p>演示价格不代表实时报价；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
+      <div class="drawer-footer"><p>演示价格不代表实时报价；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-postcard="${destination.id}">📸 晒图卡</button><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
     </div>`;
   if (!elements.dialog.open) {
     elements.dialog.showModal();
@@ -943,6 +1174,9 @@ document.addEventListener("click", (event) => {
 
   const share = event.target.closest("[data-share]");
   if (share) shareDestination(share.dataset.share);
+
+  const postcard = event.target.closest("[data-postcard]");
+  if (postcard) generatePostcard(postcard.dataset.postcard);
 
   const save = event.target.closest("[data-save], [data-dialog-save]");
   if (save) {
