@@ -129,7 +129,9 @@
                   <label for="passport-select">护照 / 旅行证件（可多选）</label>
                   <button class="text-help" type="button" data-tip="只需选择签发国家或地区，不要输入护照号码。">为何需要？</button>
                 </div>
-                <div class="tag-list" id="passport-tags" aria-live="polite"></div>
+                <div class="chip-select" id="passport-chips" role="group" aria-label="护照 / 旅行证件多选"></div>
+                <details class="more-options">
+                  <summary>没找到？展开更多证件</summary>
                 <div class="inline-add">
                   <select id="passport-select" aria-label="选择护照签发地">
                     <option value="中国大陆">中国大陆</option>
@@ -147,11 +149,14 @@
                   </select>
                   <button class="secondary-button" id="add-passport" type="button">＋ 添加</button>
                 </div>
+                </details>
               </div>
 
               <div class="field-group">
                 <label for="visa-select">现有签证 / 居留许可（可多选）</label>
-                <div class="tag-list" id="visa-tags" aria-live="polite"></div>
+                <div class="chip-select" id="visa-chips" role="group" aria-label="现有签证多选"></div>
+                <details class="more-options">
+                  <summary>没找到？展开更多签证类型</summary>
                 <div class="inline-add">
                   <select id="visa-select" aria-label="选择现有签证或居留许可">
                     <option value="申根多次签证">申根多次签证</option>
@@ -166,6 +171,7 @@
                   </select>
                   <button class="secondary-button" id="add-visa" type="button">＋ 添加</button>
                 </div>
+                </details>
               </div>
 
               <div class="two-col">

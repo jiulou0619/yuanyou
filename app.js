@@ -29,6 +29,9 @@ const destinations = [
     crowdValue: 31,
     travel: "约 15h · 转机 1 次",
     travelHours: 15,
+    tz: "比中国慢 6–7 小时",
+    airport: "lju",
+    flights: { 上海: "约 15h · 转机 1 次", 北京: "约 14h · 转机 1 次", 广州: "约 16h · 转机 1–2 次", 深圳: "约 16h · 转机 1–2 次", 成都: "约 14h · 转机 1 次", 香港: "约 15h · 转机 1 次", 台北: "约 16h · 转机 1 次", 新加坡: "约 14h · 转机 1 次" },
     cost: 16600,
     costRange: "$$$ · 进阶预算",
     tags: ["document", "quiet", "nature", "transit", "drive"],
@@ -100,6 +103,9 @@ const destinations = [
     crowdValue: 48,
     travel: "约 2h · 可直飞",
     travelHours: 2,
+    tz: "比中国快 1 小时",
+    airport: "fuk",
+    flights: { 上海: "约 2h · 可直飞", 北京: "约 3h · 可直飞", 广州: "约 3h · 直飞或转机", 深圳: "约 3.5h · 直飞或转机", 成都: "约 4h · 多为转机", 香港: "约 3.5h · 可直飞", 台北: "约 2h · 可直飞", 新加坡: "约 6h · 可直飞" },
     cost: 11800,
     costRange: "$$ · 适中预算",
     tags: ["quiet", "transit"],
@@ -167,12 +173,15 @@ const destinations = [
     crowdValue: 34,
     travel: "约 19h · 转机 1–2 次",
     travelHours: 19,
+    tz: "比中国慢 7–8 小时",
+    airport: "fnc",
+    flights: { 上海: "约 19h · 转机 1–2 次", 北京: "约 18h · 转机 1–2 次", 广州: "约 20h · 转机 1–2 次", 深圳: "约 20h · 转机 1–2 次", 成都: "约 19h · 转机 1–2 次", 香港: "约 19h · 转机 1–2 次", 台北: "约 20h · 转机 2 次", 新加坡: "约 18h · 转机 1–2 次" },
     cost: 19400,
     costRange: "$$$ · 进阶预算",
     tags: ["document", "quiet", "nature", "drive"],
     tagline: "海边、徒步和小众感全部拉满",
     reasons: ["Levada 步道高度匹配徒步偏好", "海岛节奏安静，避开大众团线", "自驾能覆盖不同微气候景观"],
-    tradeoffs: ["预算 P90 可能超出目标", "转机时间较长"],
+    tradeoffs: ["预算容易超出上限", "转机时间较长"],
     docDetail: "原型按有效申根多次签证进行初筛；请确认签证覆盖葡萄牙、剩余停留天数、转机地入境要求及护照有效期。",
     summary: ["匹配度 89", "8–11 天", "$$$ 进阶", "温和多变", "人流中低"],
     metrics: [["兴趣匹配", 99, "海岛徒步满分"], ["预算稳健", 70, "存在超支风险"], ["氛围个性", 96, "安静小众"], ["交通便利", 62, "长途转机"], ["天气窗口", 88, "微气候多变"], ["数据置信", 83, "机票波动较大"]],
@@ -233,6 +242,9 @@ const destinations = [
     crowdValue: 22,
     travel: "约 14h · 转机 1 次",
     travelHours: 14,
+    tz: "比中国快 4–5 小时",
+    airport: "chc",
+    flights: { 上海: "约 14h · 转机 1 次", 北京: "约 15h · 转机 1 次", 广州: "约 13h · 转机 1 次", 深圳: "约 14h · 转机 1 次", 成都: "约 15h · 转机 1 次", 香港: "约 13h · 转机 1 次", 台北: "约 13h · 转机 1 次", 新加坡: "约 12h · 转机 1 次" },
     cost: 25800,
     costRange: "$$$$ · 高预算",
     tags: ["quiet", "nature", "drive"],
@@ -365,6 +377,52 @@ function shareDestination(id) {
     return;
   }
   showToast("请从地址栏手动复制链接分享");
+}
+
+// —— 出发地感知：航线、时差与查航班 ——
+
+const ORIGIN_IATA = {
+  上海: "sha", 北京: "bjs", 广州: "can", 深圳: "szx", 成都: "ctu", 杭州: "hgh", 重庆: "ckg", 西安: "xiy",
+  南京: "nkg", 武汉: "wuh", 长沙: "csx", 厦门: "xmn", 青岛: "tao", 昆明: "kmg", 天津: "tsn", 郑州: "cgo",
+  香港: "hkg", 澳门: "mfm", 台北: "tpe", 新加坡: "sin",
+};
+
+function currentOrigin() {
+  const input = document.querySelector("#origin");
+  return input ? input.value.trim() : "";
+}
+
+function flightInfo(destination) {
+  const origin = currentOrigin();
+  return (destination.flights && destination.flights[origin]) || destination.travel;
+}
+
+function flightSearchUrl(destination) {
+  const code = ORIGIN_IATA[currentOrigin()] || "cn";
+  return `https://www.skyscanner.net/transport/flights/${code}/${destination.airport}/`;
+}
+
+// —— 证件胶囊多选 ——
+
+const CHIP_OPTIONS = {
+  passport: ["中国大陆", "中国香港", "中国澳门", "中国台湾", "美国", "新加坡", "日本", "英国"],
+  visa: ["申根多次签证", "日本多次签证", "美国 B1/B2", "英国访客签证", "澳大利亚访客签证", "新西兰访客签证", "欧盟/申根居留卡"],
+};
+
+function toggleChip(type, value) {
+  const values = type === "passport" ? state.passports : state.visas;
+  const index = values.indexOf(value);
+  if (index >= 0) {
+    if (type === "passport" && values.length === 1) {
+      showToast("至少保留一本旅行证件，才能判断入境可行性");
+      return;
+    }
+    values.splice(index, 1);
+  } else {
+    values.push(value);
+  }
+  renderTags(type);
+  persistPreferences();
 }
 
 // —— 预算实验室 ——
@@ -700,8 +758,6 @@ const elements = {
   prev: document.querySelector("#prev-step"),
   next: document.querySelector("#next-step"),
   analyze: document.querySelector("#analyze"),
-  passportTags: document.querySelector("#passport-tags"),
-  visaTags: document.querySelector("#visa-tags"),
   list: document.querySelector("#destination-list"),
   dialog: document.querySelector("#destination-dialog"),
   methodDialog: document.querySelector("#method-dialog"),
@@ -758,11 +814,15 @@ function setStep(nextStep) {
 
 function renderTags(type) {
   const values = type === "passport" ? state.passports : state.visas;
-  const container = type === "passport" ? elements.passportTags : elements.visaTags;
-  container.innerHTML = values
+  const container = document.querySelector(`#${type}-chips`);
+  if (!container) return;
+  const base = CHIP_OPTIONS[type];
+  const options = [...base, ...values.filter((value) => !base.includes(value))];
+  container.innerHTML = options
     .map((value) => {
       const safe = escapeHtml(value);
-      return `<span class="data-tag">${safe}<button type="button" data-remove-${type}="${safe}" aria-label="移除 ${safe}">×</button></span>`;
+      const on = values.includes(value);
+      return `<button type="button" class="select-chip ${on ? "on" : ""}" data-chip-type="${type}" data-chip-value="${safe}" aria-pressed="${on}">${on ? "✓ " : ""}${safe}</button>`;
     })
     .join("");
 }
@@ -1171,7 +1231,7 @@ function cardTemplate(destination) {
           <div><span>建议天数</span><b>${destination.duration}</b></div>
           <div><span>同期体感</span><b>${destination.temperature}</b></div>
           <div><span>预计人流</span><b>${destination.crowd}</b></div>
-          <div><span>路上时间</span><b>${destination.travel}</b></div>
+          <div><span>路上时间</span><b>${flightInfo(destination)}</b></div>
         </div>
         <div class="reason-grid">
           <div><h3>为什么推荐给你</h3><ul class="reason-list">${destination.reasons.map((item) => `<li>${item}</li>`).join("")}</ul></div>
@@ -1270,6 +1330,7 @@ function openDestination(id) {
     <div class="drawer-body">
       <div class="drawer-summary">${destination.summary.map((value, index) => `<div><span>${["综合结果", "适合时长", "预算档位", "天气", "人流"][index]}</span><b>${value}</b></div>`).join("")}</div>
       <section class="drawer-section"><h3>为什么适合我</h3><div class="metric-grid">${destination.metrics.map(([name, score, label]) => `<article class="metric-card"><div class="metric-title"><b>${name}</b><span>${label} · ${score}</span></div><div class="metric-bar"><i style="width:${score}%"></i></div></article>`).join("")}</div></section>
+      <div class="flight-line"><span>✈ 从${escapeHtml(currentOrigin() || "你的城市")}出发：${flightInfo(destination)} · 时差${destination.tz}</span><a class="guide-link" href="${flightSearchUrl(destination)}" target="_blank" rel="noopener">查当期航班 ↗</a></div>
       <section class="drawer-section"><h3>能否顺利前往</h3><div class="info-card"><b>${destination.docState === "ok" ? "初筛：可能符合现有证件条件" : "初筛：仍需完成或确认手续"}</b><p>${destination.docDetail}</p></div></section>
       <section class="drawer-section"><h3>住、吃、移动与安全</h3><div class="info-grid">${destination.info.map(([title, detail]) => `<article class="info-card"><b>${title}</b><p>${detail}</p></article>`).join("")}</div></section>
       <section class="drawer-section"><h3>钱花在哪里</h3><table class="budget-table"><thead><tr><th>项目</th><th>档位</th><th>占总预算</th></tr></thead><tbody>${budgetRows}</tbody></table>${tierLegendTemplate()}</section>
@@ -1361,6 +1422,7 @@ document.querySelector(".stepper").addEventListener("keydown", (event) => {
 document.querySelector("#add-passport").addEventListener("click", () => addTag("passport"));
 document.querySelector("#add-visa").addEventListener("click", () => addTag("visa"));
 document.querySelector("#add-memory-place").addEventListener("click", addManualMemory);
+document.querySelector("#origin").addEventListener("change", () => renderDestinations());
 document.querySelector("#memory-place-input").addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -1409,6 +1471,9 @@ document.addEventListener("click", (event) => {
 
   const postcard = event.target.closest("[data-postcard]");
   if (postcard) generatePostcard(postcard.dataset.postcard);
+
+  const selectChip = event.target.closest("[data-chip-type]");
+  if (selectChip) toggleChip(selectChip.dataset.chipType, selectChip.dataset.chipValue);
 
   const labChip = event.target.closest("[data-lab-cat]");
   if (labChip) {
