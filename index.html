@@ -4,13 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta
       name="description"
       content="远择 FARWISE——基于证件、预算、个性、天气、安全和实时信号的可解释旅行推荐原型。"
     />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#0d3b3a" />
+    <meta property="og:title" content="远择 FARWISE｜找到真正适合你的下一站" />
+    <meta property="og:description" content="综合护照签证、时间预算、性格兴趣、天气与安全信号的可解释旅行推荐。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content="assets/travel-hero.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>远择 FARWISE｜找到真正适合你的下一站</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d3b3a'/%3E%3Ctext x='32' y='44' font-size='30' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif'%3E%E8%BF%9C%3C/text%3E%3C/svg%3E"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <noscript>
+      <p class="noscript-note">这个原型需要启用 JavaScript 才能交互。请在浏览器设置中允许 JavaScript 后刷新页面。</p>
+    </noscript>
     <header class="site-header" id="top">
       <a class="brand" href="#top" aria-label="远择首页">
         <span class="brand-mark" aria-hidden="true">远</span>
@@ -22,7 +42,7 @@
         <a href="#method">如何推荐</a>
       </nav>
       <div class="header-actions">
-        <button class="ghost-button compact" type="button">简中 · CNY</button>
+        <button class="ghost-button compact" type="button" data-tip="原型演示：正式版将支持多语言与多币种切换">简中 · CNY</button>
         <button class="avatar-button" type="button" data-login aria-label="登录或创建账户">登录</button>
       </div>
     </header>
@@ -49,29 +69,29 @@
               <p class="eyebrow">约 2 分钟</p>
               <h2 id="planner-title">告诉我，你想怎么出发</h2>
             </div>
-            <span class="privacy-pill">仅保存国家/签证类型</span>
+            <span class="privacy-pill">偏好仅保存在本机</span>
           </div>
 
           <div class="stepper" role="tablist" aria-label="推荐设置步骤">
-            <button class="step-tab active" type="button" data-step-target="1" role="tab" aria-selected="true">
+            <button class="step-tab active" type="button" data-step-target="1" role="tab" id="step-tab-1" aria-controls="step-panel-1" aria-selected="true">
               <span>1</span><b>身份</b>
             </button>
-            <button class="step-tab" type="button" data-step-target="2" role="tab" aria-selected="false">
+            <button class="step-tab" type="button" data-step-target="2" role="tab" id="step-tab-2" aria-controls="step-panel-2" aria-selected="false" tabindex="-1">
               <span>2</span><b>行程</b>
             </button>
-            <button class="step-tab" type="button" data-step-target="3" role="tab" aria-selected="false">
+            <button class="step-tab" type="button" data-step-target="3" role="tab" id="step-tab-3" aria-controls="step-panel-3" aria-selected="false" tabindex="-1">
               <span>3</span><b>兴趣</b>
             </button>
-            <button class="step-tab" type="button" data-step-target="4" role="tab" aria-selected="false">
+            <button class="step-tab" type="button" data-step-target="4" role="tab" id="step-tab-4" aria-controls="step-panel-4" aria-selected="false" tabindex="-1">
               <span>4</span><b>个性</b>
             </button>
-            <button class="step-tab" type="button" data-step-target="5" role="tab" aria-selected="false">
+            <button class="step-tab" type="button" data-step-target="5" role="tab" id="step-tab-5" aria-controls="step-panel-5" aria-selected="false" tabindex="-1">
               <span>5</span><b>交通</b>
             </button>
           </div>
 
           <form id="recommendation-form">
-            <div class="form-step active" data-step="1" role="tabpanel">
+            <div class="form-step active" data-step="1" role="tabpanel" id="step-panel-1" aria-labelledby="step-tab-1">
               <div class="field-group">
                 <div class="field-label-row">
                   <label for="passport-select">护照 / 旅行证件（可多选）</label>
@@ -110,7 +130,7 @@
                     <option value="澳大利亚访客签证">澳大利亚访客签证</option>
                     <option value="新西兰访客签证">新西兰访客签证</option>
                     <option value="欧盟/申根居留卡">欧盟/申根居留卡</option>
-                    <option value="美国绿卡">美国永久居民卡</option>
+                    <option value="美国永久居民卡">美国永久居民卡</option>
                   </select>
                   <button class="secondary-button" id="add-visa" type="button">＋ 添加</button>
                 </div>
@@ -121,7 +141,7 @@
                   <select id="residence"><option>中国大陆</option><option>美国</option><option>加拿大</option><option>英国</option><option>澳大利亚</option><option>新加坡</option></select>
                 </label>
                 <label class="input-label">出发城市
-                  <input id="origin" value="上海" autocomplete="address-level2" />
+                  <input id="origin" value="上海" maxlength="30" autocomplete="address-level2" />
                 </label>
               </div>
 
@@ -131,19 +151,19 @@
               <p class="microcopy">建议仅保存证件类别与有效期；证件号码和扫描件不属于推荐所需数据。</p>
             </div>
 
-            <div class="form-step" data-step="2" role="tabpanel" hidden>
+            <div class="form-step" data-step="2" role="tabpanel" id="step-panel-2" aria-labelledby="step-tab-2" hidden>
               <div class="two-col">
                 <label class="input-label">最早出发
                   <input id="start-date" type="date" value="2026-09-12" />
                 </label>
                 <label class="input-label">最晚返回
-                  <input id="end-date" type="date" value="2026-09-21" />
+                  <input id="end-date" type="date" value="2026-09-21" min="2026-09-12" />
                 </label>
               </div>
               <div class="choice-row segmented-control" aria-label="日期灵活度">
-                <button class="choice-chip" type="button" aria-pressed="false"><span>固定日期</span></button>
-                <button class="choice-chip selected" type="button" aria-pressed="true"><span>前后 ±3 天</span></button>
-                <button class="choice-chip" type="button" aria-pressed="false"><span>整月皆可</span></button>
+                <button class="choice-chip" type="button" data-flex="fixed" aria-pressed="false"><span>固定日期</span></button>
+                <button class="choice-chip selected" type="button" data-flex="plusminus3" aria-pressed="true"><span>前后 ±3 天</span></button>
+                <button class="choice-chip" type="button" data-flex="month" aria-pressed="false"><span>整月皆可</span></button>
               </div>
 
               <div class="two-col">
@@ -169,18 +189,18 @@
 
               <div class="three-col">
                 <label class="input-label">住宿偏好
-                  <select><option>青旅 / 民宿</option><option selected>舒适型酒店</option><option>高端酒店</option><option>度假村</option><option>公寓式住宿</option></select>
+                  <select id="stay-select"><option>青旅 / 民宿</option><option selected>舒适型酒店</option><option>高端酒店</option><option>度假村</option><option>公寓式住宿</option></select>
                 </label>
                 <label class="input-label">节奏
-                  <select><option>慢住一地</option><option selected>适中</option><option>高强度打卡</option></select>
+                  <select id="pace-select"><option>慢住一地</option><option selected>适中</option><option>高强度打卡</option></select>
                 </label>
                 <label class="input-label">预算弹性
-                  <select><option>不能超支</option><option selected>可上浮 10%</option><option>体验优先</option></select>
+                  <select id="flex-select"><option>不能超支</option><option selected>可上浮 10%</option><option>体验优先</option></select>
                 </label>
               </div>
             </div>
 
-            <div class="form-step" data-step="3" role="tabpanel" hidden>
+            <div class="form-step" data-step="3" role="tabpanel" id="step-panel-3" aria-labelledby="step-tab-3" hidden>
               <div class="field-label-row">
                 <label>这次旅行最想获得什么？</label>
                 <span class="selection-count"><b id="interest-count">6</b> 项已选</span>
@@ -205,32 +225,32 @@
               </div>
             </div>
 
-            <div class="form-step" data-step="4" role="tabpanel" hidden>
+            <div class="form-step" data-step="4" role="tabpanel" id="step-panel-4" aria-labelledby="step-tab-4" hidden>
               <p class="step-note">没有好坏之分。滑到更接近你的状态，推荐会随之变化。</p>
               <div class="personality-list">
                 <label class="spectrum-row" data-left="独处" data-right="社交">
                   <span><b>独处充电</b><small>I 型体验</small></span>
-                  <span class="spectrum-control"><output class="spectrum-state">偏向独处</output><input class="smart-range" type="range" min="0" max="100" value="28" aria-label="独处或社交偏好" /></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向独处</output><input class="smart-range" type="range" min="0" max="100" value="28" data-spectrum="social" aria-label="独处或社交偏好" /></span>
                   <span class="right"><b>社交充电</b><small>E 型体验</small></span>
                 </label>
                 <label class="spectrum-row" data-left="经典" data-right="探索">
                   <span><b>经典稳妥</b><small>大众但不踩雷</small></span>
-                  <span class="spectrum-control"><output class="spectrum-state">偏向探索</output><input class="smart-range" type="range" min="0" max="100" value="68" aria-label="经典或小众偏好" /></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向探索</output><input class="smart-range" type="range" min="0" max="100" value="68" data-spectrum="explore" aria-label="经典或小众偏好" /></span>
                   <span class="right"><b>冷门探索</b><small>愿意承担不确定性</small></span>
                 </label>
                 <label class="spectrum-row" data-left="安静" data-right="热闹">
                   <span><b>安静松弛</b><small>避开喧闹</small></span>
-                  <span class="spectrum-control"><output class="spectrum-state">明显偏安静</output><input class="smart-range" type="range" min="0" max="100" value="22" aria-label="安静或热闹偏好" /></span>
+                  <span class="spectrum-control"><output class="spectrum-state">明显偏安静</output><input class="smart-range" type="range" min="0" max="100" value="22" data-spectrum="energy" aria-label="安静或热闹偏好" /></span>
                   <span class="right"><b>热闹高能</b><small>活动与夜生活</small></span>
                 </label>
                 <label class="spectrum-row" data-left="规划" data-right="随性">
                   <span><b>规划明确</b><small>提前订好</small></span>
-                  <span class="spectrum-control"><output class="spectrum-state">较为平衡</output><input class="smart-range" type="range" min="0" max="100" value="44" aria-label="计划或随性偏好" /></span>
+                  <span class="spectrum-control"><output class="spectrum-state">较为平衡</output><input class="smart-range" type="range" min="0" max="100" value="44" data-spectrum="planning" aria-label="计划或随性偏好" /></span>
                   <span class="right"><b>随性即兴</b><small>临场决定</small></span>
                 </label>
                 <label class="spectrum-row" data-left="慢游" data-right="高密度">
                   <span><b>慢节奏</b><small>留白和休息</small></span>
-                  <span class="spectrum-control"><output class="spectrum-state">偏向慢游</output><input class="smart-range" type="range" min="0" max="100" value="37" aria-label="慢速或紧凑偏好" /></span>
+                  <span class="spectrum-control"><output class="spectrum-state">偏向慢游</output><input class="smart-range" type="range" min="0" max="100" value="37" data-spectrum="pace" aria-label="慢速或紧凑偏好" /></span>
                   <span class="right"><b>高密度</b><small>每天安排丰富</small></span>
                 </label>
               </div>
@@ -238,14 +258,14 @@
               <div class="field-group top-gap">
                 <label>哪些因素会让你直接放弃一个目的地？</label>
                 <div class="choice-row wrap">
-                  <button class="choice-chip selected" type="button" aria-pressed="true">治安风险高</button>
-                  <button class="choice-chip selected" type="button" aria-pressed="true">极端天气</button>
-                  <button class="choice-chip selected" type="button" aria-pressed="true">过度拥挤</button>
-                  <button class="choice-chip" type="button" aria-pressed="false">语言不便</button>
-                  <button class="choice-chip" type="button" aria-pressed="false">卫生条件一般</button>
-                  <button class="choice-chip" type="button" aria-pressed="false">长距离步行</button>
-                  <button class="choice-chip" type="button" aria-pressed="false">夜间不便</button>
-                  <button class="choice-chip" type="button" aria-pressed="false">饮食受限</button>
+                  <button class="choice-chip selected" type="button" data-dealbreaker="safety" aria-pressed="true">治安风险高</button>
+                  <button class="choice-chip selected" type="button" data-dealbreaker="weather" aria-pressed="true">极端天气</button>
+                  <button class="choice-chip selected" type="button" data-dealbreaker="crowded" aria-pressed="true">过度拥挤</button>
+                  <button class="choice-chip" type="button" data-dealbreaker="language" aria-pressed="false">语言不便</button>
+                  <button class="choice-chip" type="button" data-dealbreaker="hygiene" aria-pressed="false">卫生条件一般</button>
+                  <button class="choice-chip" type="button" data-dealbreaker="walking" aria-pressed="false">长距离步行</button>
+                  <button class="choice-chip" type="button" data-dealbreaker="night" aria-pressed="false">夜间不便</button>
+                  <button class="choice-chip" type="button" data-dealbreaker="diet" aria-pressed="false">饮食受限</button>
                 </div>
               </div>
 
@@ -268,33 +288,33 @@
               </div>
             </div>
 
-            <div class="form-step" data-step="5" role="tabpanel" hidden>
+            <div class="form-step" data-step="5" role="tabpanel" id="step-panel-5" aria-labelledby="step-tab-5" hidden>
               <div class="field-label-row"><label>愿意使用的交通方式</label><span class="selection-count">可多选</span></div>
               <div class="transport-grid">
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>✈️</span><b>飞机</b><small>接受转机 1 次</small></button>
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚆</span><b>火车</b><small>偏好沿途风景</small></button>
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚗</span><b>自驾</b><small>每天 ≤ 3 小时</small></button>
-                <button type="button" class="transport-tile" aria-pressed="false"><span>🏍️</span><b>摩托</b><small>需核验驾照</small></button>
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚲</span><b>骑行</b><small>休闲路线</small></button>
-                <button type="button" class="transport-tile" aria-pressed="false"><span>⛴️</span><b>轮渡</b><small>可接受过夜</small></button>
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚌</span><b>公共交通</b><small>地铁、公交、巴士</small></button>
-                <button type="button" class="transport-tile selected" aria-pressed="true"><span>🚶</span><b>步行</b><small>每天约 15,000 步</small></button>
+                <button type="button" class="transport-tile selected" data-transport="plane" aria-pressed="true"><span>✈️</span><b>飞机</b><small>接受转机 1 次</small></button>
+                <button type="button" class="transport-tile selected" data-transport="train" aria-pressed="true"><span>🚆</span><b>火车</b><small>偏好沿途风景</small></button>
+                <button type="button" class="transport-tile selected" data-transport="drive" aria-pressed="true"><span>🚗</span><b>自驾</b><small>每天 ≤ 3 小时</small></button>
+                <button type="button" class="transport-tile" data-transport="moto" aria-pressed="false"><span>🏍️</span><b>摩托</b><small>需核验驾照</small></button>
+                <button type="button" class="transport-tile selected" data-transport="bike" aria-pressed="true"><span>🚲</span><b>骑行</b><small>休闲路线</small></button>
+                <button type="button" class="transport-tile" data-transport="ferry" aria-pressed="false"><span>⛴️</span><b>轮渡</b><small>可接受过夜</small></button>
+                <button type="button" class="transport-tile selected" data-transport="transit" aria-pressed="true"><span>🚌</span><b>公共交通</b><small>地铁、公交、巴士</small></button>
+                <button type="button" class="transport-tile selected" data-transport="walk" aria-pressed="true"><span>🚶</span><b>步行</b><small>每天约 15,000 步</small></button>
               </div>
 
               <div class="three-col top-gap">
                 <label class="input-label">最长单程飞行
-                  <select><option>5 小时内</option><option selected>10 小时内</option><option>15 小时内</option><option>不限</option></select>
+                  <select id="flight-select"><option>5 小时内</option><option selected>10 小时内</option><option>15 小时内</option><option>不限</option></select>
                 </label>
                 <label class="input-label">转机接受度
-                  <select><option>只要直飞</option><option selected>最多 1 次</option><option>价格优先</option></select>
+                  <select id="transfer-select"><option>只要直飞</option><option selected>最多 1 次</option><option>价格优先</option></select>
                 </label>
                 <label class="input-label">驾驶条件
-                  <select><option selected>可右舵，需自动挡</option><option>只接受左舵</option><option>不考虑自驾</option></select>
+                  <select id="drive-select"><option selected>可右舵，需自动挡</option><option>只接受左舵</option><option>不考虑自驾</option></select>
                 </label>
               </div>
-              <label class="switch-line"><span><b>国际驾照或翻译件</b><small>愿意在出发前办理</small></span><input type="checkbox" checked /><i class="switch-ui" aria-hidden="true"></i></label>
-              <label class="switch-line"><span><b>低体力 / 无障碍路线</b><small>减少楼梯、坡度和长距离步行</small></span><input type="checkbox" /><i class="switch-ui" aria-hidden="true"></i></label>
-              <label class="switch-line"><span><b>减少换乘</b><small>携带大件行李，优先门到门便利</small></span><input type="checkbox" /><i class="switch-ui" aria-hidden="true"></i></label>
+              <label class="switch-line"><span><b>国际驾照或翻译件</b><small>愿意在出发前办理</small></span><input type="checkbox" data-pref-switch="license" checked /><i class="switch-ui" aria-hidden="true"></i></label>
+              <label class="switch-line"><span><b>低体力 / 无障碍路线</b><small>减少楼梯、坡度和长距离步行</small></span><input type="checkbox" data-pref-switch="accessible" /><i class="switch-ui" aria-hidden="true"></i></label>
+              <label class="switch-line"><span><b>减少换乘</b><small>携带大件行李，优先门到门便利</small></span><input type="checkbox" data-pref-switch="fewer-transfers" /><i class="switch-ui" aria-hidden="true"></i></label>
             </div>
 
             <div class="planner-footer">
@@ -401,8 +421,8 @@
     </footer>
 
     <dialog id="destination-dialog" class="detail-dialog">
-      <div id="dialog-content"></div>
       <button class="dialog-close" type="button" aria-label="关闭详情">×</button>
+      <div id="dialog-content"></div>
     </dialog>
 
     <dialog id="method-dialog" class="method-dialog">
@@ -432,7 +452,7 @@
           <label><input type="radio" name="feedback-reason" value="too_far" /><span><b>↗ 路上太久</b><small>降低长途或多次转机目的地权重</small></span></label>
           <label><input type="radio" name="feedback-reason" value="too_crowded" /><span><b>♟ 太拥挤</b><small>提高安静和错峰目的地权重</small></span></label>
         </div>
-        <div class="dialog-actions"><button class="ghost-button" value="cancel">取消</button><button class="primary-button" id="confirm-feedback" value="default">隐藏并调整推荐</button></div>
+        <div class="dialog-actions"><button class="ghost-button" id="cancel-feedback" type="button">取消</button><button class="primary-button" id="confirm-feedback" value="default">隐藏并调整推荐</button></div>
       </form>
     </dialog>
 

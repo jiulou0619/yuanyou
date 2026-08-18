@@ -260,6 +260,7 @@ function setStep(nextStep) {
     tab.classList.toggle("active", number === state.step);
     tab.classList.toggle("done", number < state.step);
     tab.setAttribute("aria-selected", String(number === state.step));
+    tab.tabIndex = number === state.step ? 0 : -1;
   });
   elements.prev.disabled = state.step === 1;
   elements.next.hidden = state.step === 5;
@@ -270,7 +271,10 @@ function renderTags(type) {
   const values = type === "passport" ? state.passports : state.visas;
   const container = type === "passport" ? elements.passportTags : elements.visaTags;
   container.innerHTML = values
-    .map((value) => `<span class="data-tag">${value}<button type="button" data-remove-${type}="${value}" aria-label="移除 ${value}">×</button></span>`)
+    .map((value) => {
+      const safe = escapeHtml(value);
+      return `<span class="data-tag">${safe}<button type="button" data-remove-${type}="${safe}" aria-label="移除 ${safe}">×</button></span>`;
+    })
     .join("");
 }
 
@@ -302,42 +306,134 @@ function selectedInterests() {
   return [...document.querySelectorAll("[data-interest][aria-pressed='true']")].map((button) => button.dataset.interest);
 }
 
+const PREFS_KEY = "farwise-demo-preferences";
+const MEMORY_KEY = "farwise-demo-travel-memory";
+
+function cleanStringList(value, maxItems = 16, maxLength = 40) {
+  if (!Array.isArray(value)) return null;
+  return value
+    .filter((item) => typeof item === "string" && item.trim() && item.length <= maxLength)
+    .slice(0, maxItems);
+}
+
+function fieldValue(selector) {
+  return document.querySelector(selector)?.value ?? null;
+}
+
+function setSelectValue(selector, value) {
+  const select = document.querySelector(selector);
+  if (!select || typeof value !== "string") return;
+  if ([...select.options].some((option) => option.value === value)) select.value = value;
+}
+
+function setPressed(button, pressed) {
+  button.classList.toggle("selected", pressed);
+  button.setAttribute("aria-pressed", String(pressed));
+}
+
+function syncBudgetReadout() {
+  const range = document.querySelector("#budget-range");
+  const value = Number(range.value);
+  document.querySelector("#budget-output").textContent = formatMoney(value);
+  const tier = value < 10000 ? "精打细算" : value < 26000 ? "舒适探索" : value < 50000 ? "体验优先" : "高端定制";
+  document.querySelector("#budget-hint span").textContent = `当前档位：${tier}`;
+  updateRange(range);
+}
+
 function persistPreferences() {
   const snapshot = {
     passports: state.passports,
     visas: state.visas,
-    origin: document.querySelector("#origin")?.value,
-    budget: document.querySelector("#budget-range")?.value,
+    residence: fieldValue("#residence"),
+    origin: fieldValue("#origin"),
+    startDate: fieldValue("#start-date"),
+    endDate: fieldValue("#end-date"),
+    flexibility: document.querySelector(".segmented-control .choice-chip[aria-pressed='true']")?.dataset.flex || null,
+    duration: fieldValue("#duration"),
+    party: fieldValue("#party"),
+    budget: fieldValue("#budget-range"),
+    stay: fieldValue("#stay-select"),
+    pace: fieldValue("#pace-select"),
+    budgetFlex: fieldValue("#flex-select"),
+    flight: fieldValue("#flight-select"),
+    transfer: fieldValue("#transfer-select"),
+    driving: fieldValue("#drive-select"),
     interests: selectedInterests(),
+    transports: [...document.querySelectorAll("[data-transport][aria-pressed='true']")].map((button) => button.dataset.transport),
+    dealbreakers: [...document.querySelectorAll("[data-dealbreaker][aria-pressed='true']")].map((button) => button.dataset.dealbreaker),
+    personality: Object.fromEntries(
+      [...document.querySelectorAll("[data-spectrum]")].map((range) => [range.dataset.spectrum, Number(range.value)])
+    ),
+    switches: Object.fromEntries(
+      [...document.querySelectorAll("[data-pref-switch]")].map((input) => [input.dataset.prefSwitch, input.checked])
+    ),
   };
   try {
-    localStorage.setItem("farwise-demo-preferences", JSON.stringify(snapshot));
+    localStorage.setItem(PREFS_KEY, JSON.stringify(snapshot));
   } catch (_) {
     // The prototype still works when local storage is blocked.
   }
 }
 
 function loadPreferences() {
+  let saved;
   try {
-    const raw = localStorage.getItem("farwise-demo-preferences");
-    if (!raw) return;
-    const saved = JSON.parse(raw);
-    if (Array.isArray(saved.passports) && saved.passports.length) state.passports = saved.passports;
-    if (Array.isArray(saved.visas)) state.visas = saved.visas;
-    if (saved.origin) document.querySelector("#origin").value = saved.origin;
-    if (saved.budget) {
-      document.querySelector("#budget-range").value = saved.budget;
-      document.querySelector("#budget-output").textContent = formatMoney(saved.budget);
-    }
-    if (Array.isArray(saved.interests)) {
-      document.querySelectorAll("[data-interest]").forEach((button) => {
-        const selected = saved.interests.includes(button.dataset.interest);
-        button.classList.toggle("selected", selected);
-        button.setAttribute("aria-pressed", String(selected));
-      });
-    }
+    saved = JSON.parse(localStorage.getItem(PREFS_KEY) || "null");
   } catch (_) {
-    // Ignore malformed demo state.
+    return;
+  }
+  if (!saved || typeof saved !== "object") return;
+
+  const passports = cleanStringList(saved.passports, 12);
+  if (passports && passports.length) state.passports = passports;
+  const visas = cleanStringList(saved.visas, 12);
+  if (visas) state.visas = visas;
+
+  setSelectValue("#residence", saved.residence);
+  if (typeof saved.origin === "string") document.querySelector("#origin").value = saved.origin.slice(0, 30);
+
+  const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+  if (typeof saved.startDate === "string" && datePattern.test(saved.startDate)) document.querySelector("#start-date").value = saved.startDate;
+  if (typeof saved.endDate === "string" && datePattern.test(saved.endDate)) document.querySelector("#end-date").value = saved.endDate;
+
+  if (typeof saved.flexibility === "string") {
+    document.querySelectorAll(".segmented-control .choice-chip").forEach((chip) => setPressed(chip, chip.dataset.flex === saved.flexibility));
+  }
+  setSelectValue("#duration", saved.duration);
+  setSelectValue("#party", saved.party);
+
+  const budgetRange = document.querySelector("#budget-range");
+  const budget = Number(saved.budget);
+  if (Number.isFinite(budget)) {
+    budgetRange.value = Math.min(Number(budgetRange.max), Math.max(Number(budgetRange.min), budget));
+    syncBudgetReadout();
+  }
+
+  setSelectValue("#stay-select", saved.stay);
+  setSelectValue("#pace-select", saved.pace);
+  setSelectValue("#flex-select", saved.budgetFlex);
+  setSelectValue("#flight-select", saved.flight);
+  setSelectValue("#transfer-select", saved.transfer);
+  setSelectValue("#drive-select", saved.driving);
+
+  const interests = cleanStringList(saved.interests, 16);
+  if (interests) document.querySelectorAll("[data-interest]").forEach((button) => setPressed(button, interests.includes(button.dataset.interest)));
+  const transports = cleanStringList(saved.transports, 8, 20);
+  if (transports) document.querySelectorAll("[data-transport]").forEach((button) => setPressed(button, transports.includes(button.dataset.transport)));
+  const dealbreakers = cleanStringList(saved.dealbreakers, 8, 20);
+  if (dealbreakers) document.querySelectorAll("[data-dealbreaker]").forEach((button) => setPressed(button, dealbreakers.includes(button.dataset.dealbreaker)));
+
+  if (saved.personality && typeof saved.personality === "object") {
+    document.querySelectorAll("[data-spectrum]").forEach((range) => {
+      const value = Number(saved.personality[range.dataset.spectrum]);
+      if (Number.isFinite(value)) range.value = Math.min(100, Math.max(0, value));
+    });
+  }
+  if (saved.switches && typeof saved.switches === "object") {
+    document.querySelectorAll("[data-pref-switch]").forEach((input) => {
+      const value = saved.switches[input.dataset.prefSwitch];
+      if (typeof value === "boolean") input.checked = value;
+    });
   }
 }
 
@@ -352,34 +448,84 @@ function escapeHtml(value) {
 
 function persistTravelMemory() {
   try {
-    localStorage.setItem("farwise-demo-travel-memory", JSON.stringify({
-      exclusions: state.exclusions,
+    localStorage.setItem(MEMORY_KEY, JSON.stringify({
+      // 太贵/太远/太挤 records are labeled "本次行程", so they stay
+      // in-memory only and reset on the next visit, as the label promises.
+      exclusions: state.exclusions.filter((record) => record.scope !== "本次行程"),
       hideVisited: state.hideVisited,
       downrankSimilar: state.downrankSimilar,
       userReviews: state.userReviews,
+      saved: [...state.saved],
     }));
   } catch (_) {
     // The prototype remains usable if local storage is unavailable.
   }
 }
 
+const VALID_EXPERIENCES = new Set(["visited", "unvisited"]);
+const VALID_PREFERENCES = new Set(["normal", "not_interested", "avoid"]);
+
+function sanitizeExclusion(record) {
+  if (!record || typeof record !== "object") return null;
+  if (typeof record.key !== "string" || typeof record.label !== "string" || !record.label.trim()) return null;
+  const clean = {
+    key: record.key.slice(0, 60),
+    destinationId: typeof record.destinationId === "string" ? record.destinationId.slice(0, 40) : null,
+    label: record.label.slice(0, 60),
+    country: typeof record.country === "string" ? record.country.slice(0, 40) : "自定义地点",
+    experience: VALID_EXPERIENCES.has(record.experience) ? record.experience : "unvisited",
+    preference: VALID_PREFERENCES.has(record.preference) ? record.preference : "normal",
+    revisit: typeof record.revisit === "string" ? record.revisit.slice(0, 20) : "unspecified",
+    createdAt: typeof record.createdAt === "string" ? record.createdAt.slice(0, 40) : new Date().toISOString(),
+  };
+  if (typeof record.reason === "string") clean.reason = record.reason.slice(0, 20);
+  if (typeof record.scope === "string") clean.scope = record.scope.slice(0, 20);
+  return clean;
+}
+
+function sanitizeReview(review) {
+  if (!review || typeof review !== "object" || typeof review.text !== "string" || !review.text.trim()) return null;
+  const rating = Math.round(Number(review.rating));
+  return {
+    name: typeof review.name === "string" && review.name.trim() ? review.name.slice(0, 20) : "我的记录",
+    rating: Number.isFinite(rating) ? Math.min(5, Math.max(1, rating)) : 5,
+    date: typeof review.date === "string" ? review.date.slice(0, 20) : "",
+    tags: cleanStringList(review.tags, 6, 12) || [],
+    text: review.text.slice(0, 2000),
+  };
+}
+
 function loadTravelMemory() {
+  let saved;
   try {
-    const raw = localStorage.getItem("farwise-demo-travel-memory");
-    if (!raw) return;
-    const saved = JSON.parse(raw);
-    if (Array.isArray(saved.exclusions)) state.exclusions = saved.exclusions;
-    if (typeof saved.hideVisited === "boolean") state.hideVisited = saved.hideVisited;
-    if (typeof saved.downrankSimilar === "boolean") state.downrankSimilar = saved.downrankSimilar;
-    if (saved.userReviews && typeof saved.userReviews === "object") state.userReviews = saved.userReviews;
+    saved = JSON.parse(localStorage.getItem(MEMORY_KEY) || "null");
   } catch (_) {
-    // Ignore malformed local prototype data.
+    return;
+  }
+  if (!saved || typeof saved !== "object") return;
+  if (Array.isArray(saved.exclusions)) state.exclusions = saved.exclusions.map(sanitizeExclusion).filter(Boolean).slice(0, 100);
+  if (typeof saved.hideVisited === "boolean") state.hideVisited = saved.hideVisited;
+  if (typeof saved.downrankSimilar === "boolean") state.downrankSimilar = saved.downrankSimilar;
+  if (saved.userReviews && typeof saved.userReviews === "object" && !Array.isArray(saved.userReviews)) {
+    const cleaned = {};
+    destinations.forEach((destination) => {
+      const list = saved.userReviews[destination.id];
+      if (!Array.isArray(list)) return;
+      const reviews = list.map(sanitizeReview).filter(Boolean).slice(0, 20);
+      if (reviews.length) cleaned[destination.id] = reviews;
+    });
+    state.userReviews = cleaned;
+  }
+  if (Array.isArray(saved.saved)) {
+    state.saved = new Set(saved.saved.filter((id) => destinations.some((destination) => destination.id === id)));
   }
 }
 
 function getMemoryDisplay(record) {
   if (record.preference === "avoid") return memoryLabels.avoid;
-  if (record.preference === "not_interested") return memoryLabels[record.reason] || memoryLabels.not_interested;
+  if (record.preference === "not_interested") {
+    return Object.hasOwn(memoryLabels, record.reason) ? memoryLabels[record.reason] : memoryLabels.not_interested;
+  }
   return memoryLabels.visited;
 }
 
@@ -576,7 +722,7 @@ function renderDestinations() {
 }
 
 function stars(rating) {
-  const rounded = Math.max(0, Math.min(5, Math.round(rating)));
+  const rounded = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
   return `${"★".repeat(rounded)}${"☆".repeat(5 - rounded)}`;
 }
 
@@ -585,7 +731,7 @@ function reviewCardTemplate(review, isLocal = false) {
   return `<article class="review-card" data-review-tags="${escapeHtml(tags.join("|"))}">
     <span class="review-avatar">${escapeHtml(review.name.slice(0, 2).toUpperCase())}</span>
     <div>
-      <div class="review-card-header"><div><b>${escapeHtml(review.name)}</b><small>${escapeHtml(review.date)} · ${isLocal ? "本站本地草稿" : "原型模拟评论"}</small></div><span class="review-stars" aria-label="${review.rating} 星">${stars(review.rating)}</span></div>
+      <div class="review-card-header"><div><b>${escapeHtml(review.name)}</b><small>${escapeHtml(review.date)} · ${isLocal ? "本站本地草稿" : "原型模拟评论"}</small></div><span class="review-stars" aria-label="${Number(review.rating) || 0} 星">${stars(review.rating)}</span></div>
       <p>${escapeHtml(review.text)}</p>
       <div class="review-tags">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}${isLocal ? "<span>仅存本机</span>" : ""}</div>
     </div>
@@ -601,7 +747,7 @@ function renderReviewSection(destination) {
     <div class="review-heading"><div><h3>旅行者评论区</h3><p>站内评论与第三方内容必须分开显示，评分不混算。</p></div><span class="review-demo-badge">模拟内容 · 非抓取</span></div>
     <div class="review-source-tabs" role="tablist" aria-label="评论来源"><button class="active" type="button" role="tab" aria-selected="true">旅行者社区</button><button type="button" role="tab" aria-selected="false" disabled>Google Maps · 待接入</button></div>
     <div class="review-overview">
-      <div class="review-score-card"><strong>${data.rating}</strong><span class="stars">${stars(data.rating)}</span><small>${data.count + localReviews.length} 条原型与本地评论</small></div>
+      <div class="review-score-card"><strong>${data.rating}</strong><span class="stars">${stars(Math.floor(data.rating))}</span><small>${data.count + localReviews.length} 条原型与本地评论</small></div>
       <div class="review-aspects">${data.aspects.map(([name, percent, caution]) => `<span class="aspect-pill ${caution ? "caution" : ""}">${escapeHtml(name)} · ${percent}% 提及</span>`).join("")}</div>
     </div>
     <div class="review-filter-row" aria-label="筛选评论">${filters.map((filter, index) => `<button class="review-filter ${index === 0 ? "active" : ""}" type="button" data-review-filter="${escapeHtml(filter)}">${escapeHtml(filter)}</button>`).join("")}</div>
@@ -618,6 +764,9 @@ function renderReviewSection(destination) {
 function openDestination(id) {
   const destination = destinations.find((item) => item.id === id);
   if (!destination) return;
+  // A fresh open starts the compose widget at 5 stars; re-renders of an
+  // already-open dialog keep the rating the user picked.
+  if (!elements.dialog.open) state.composeRating = 5;
   const budgetRows = destination.budget
     .map(([label, p50, p90]) => `<tr><td>${label}</td><td>${p50}</td><td>${p90}</td></tr>`)
     .join("");
@@ -691,16 +840,29 @@ function submitLocalReview(destinationId) {
   };
   state.userReviews[destinationId] ||= [];
   state.userReviews[destinationId].unshift(review);
+  state.composeRating = 5;
   persistTravelMemory();
   openDestination(destinationId);
   const section = document.querySelector("#traveler-reviews");
-  elements.dialog.scrollTop = Math.max(0, section.offsetTop - 18);
+  if (section) {
+    elements.dialog.scrollTop = Math.max(0, section.offsetTop - 18);
+    section.setAttribute("tabindex", "-1");
+    section.focus({ preventScroll: true });
+  }
   showToast("已保存到本机旅行记录；原型不会公开发布");
 }
 
 elements.next.addEventListener("click", () => setStep(state.step + 1));
 elements.prev.addEventListener("click", () => setStep(state.step - 1));
 elements.stepTabs.forEach((tab) => tab.addEventListener("click", () => setStep(Number(tab.dataset.stepTarget))));
+
+document.querySelector(".stepper").addEventListener("keydown", (event) => {
+  const moves = { ArrowLeft: state.step - 1, ArrowRight: state.step + 1, Home: 1, End: 5 };
+  if (!(event.key in moves)) return;
+  event.preventDefault();
+  setStep(moves[event.key]);
+  elements.stepTabs[state.step - 1].focus();
+});
 
 document.querySelector("#add-passport").addEventListener("click", () => addTag("passport"));
 document.querySelector("#add-visa").addEventListener("click", () => addTag("visa"));
@@ -742,6 +904,7 @@ document.addEventListener("click", (event) => {
       choice.classList.toggle("selected", selected);
       choice.setAttribute("aria-pressed", String(selected));
     }
+    if (choice.closest("#recommendation-form")) persistPreferences();
   }
 
   const detail = event.target.closest("[data-detail]");
@@ -752,8 +915,11 @@ document.addEventListener("click", (event) => {
     const id = save.dataset.save || save.dataset.dialogSave;
     if (state.saved.has(id)) state.saved.delete(id);
     else state.saved.add(id);
+    persistTravelMemory();
     renderDestinations();
-    if (save.dataset.dialogSave) openDestination(id);
+    // Update the dialog button in place instead of re-rendering the whole
+    // dialog, which would discard an in-progress review draft.
+    if (save.dataset.dialogSave) save.textContent = state.saved.has(id) ? "已收藏到候选清单" : "收藏到候选清单";
     showToast(state.saved.has(id) ? "已收藏到“本次旅行候选”" : "已取消收藏");
   }
 
@@ -793,9 +959,9 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.closest("#reset-results")) {
-    state.exclusions = [];
-    persistTravelMemory();
-    updateMemoryUI();
+    // Only reset the filter here. Wiping the visited/avoid list silently would
+    // destroy user data; if the list is what hides everything, open its
+    // manager so entries can be restored one by one.
     state.filter = "all";
     document.querySelectorAll(".filter-chip").forEach((button) => {
       const active = button.dataset.filter === "all";
@@ -803,6 +969,11 @@ document.addEventListener("click", (event) => {
       button.setAttribute("aria-pressed", String(active));
     });
     renderDestinations();
+    if (!filteredDestinations().length && state.exclusions.length) {
+      renderExclusionList();
+      elements.exclusionDialog.showModal();
+      showToast("结果被“去过与避雷”清单隐藏了，可在这里逐条恢复");
+    }
   }
 
   const filter = event.target.closest(".filter-chip");
@@ -820,16 +991,31 @@ document.addEventListener("click", (event) => {
   if (tip) showToast(tip.dataset.tip);
 });
 
-document.querySelector("#budget-range").addEventListener("input", (event) => {
-  document.querySelector("#budget-output").textContent = formatMoney(event.target.value);
-  const value = Number(event.target.value);
-  const hint = value < 10000 ? "精打细算" : value < 26000 ? "舒适探索" : value < 50000 ? "体验优先" : "高端定制";
-  document.querySelector("#budget-hint span").textContent = `当前档位：${hint}`;
-  updateRange(event.target);
+document.querySelector("#budget-range").addEventListener("input", () => {
+  syncBudgetReadout();
   persistPreferences();
 });
 
 document.querySelectorAll(".spectrum-row .smart-range").forEach((range) => range.addEventListener("input", () => updateRange(range)));
+
+const startDateInput = document.querySelector("#start-date");
+const endDateInput = document.querySelector("#end-date");
+
+function enforceDateOrder(changed) {
+  if (startDateInput.value) endDateInput.min = startDateInput.value;
+  if (startDateInput.value && endDateInput.value && endDateInput.value < startDateInput.value) {
+    if (changed === "start") endDateInput.value = startDateInput.value;
+    else startDateInput.value = endDateInput.value;
+    showToast("已调整日期：最晚返回不能早于最早出发");
+  }
+}
+
+startDateInput.addEventListener("change", () => enforceDateOrder("start"));
+endDateInput.addEventListener("change", () => enforceDateOrder("end"));
+
+// Any select, date, checkbox or slider change inside the questionnaire keeps
+// the local snapshot fresh, so "自动保存到本机" covers the whole form.
+elements.form.addEventListener("change", persistPreferences);
 
 document.querySelector("#manage-exclusions").addEventListener("click", () => {
   renderExclusionList();
@@ -841,6 +1027,9 @@ document.querySelector("#open-exclusions-from-form").addEventListener("click", (
 });
 document.querySelector("#close-exclusions").addEventListener("click", () => elements.exclusionDialog.close());
 document.querySelector("#done-exclusions").addEventListener("click", () => elements.exclusionDialog.close());
+// 取消 is a plain button: with it out of the submit chain, pressing Enter on a
+// radio option triggers the confirm button instead of silently cancelling.
+document.querySelector("#cancel-feedback").addEventListener("click", () => elements.feedbackDialog.close());
 document.querySelector("#confirm-feedback").addEventListener("click", (event) => {
   event.preventDefault();
   commitFeedback();
@@ -869,6 +1058,12 @@ document.querySelector("#sort-results").addEventListener("change", renderDestina
 
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
+  // Pressing Enter in a text field fires an implicit submit even while the
+  // analyze button is hidden on steps 1-4; treat it as "next step" instead.
+  if (state.step < 5) {
+    setStep(state.step + 1);
+    return;
+  }
   elements.analyze.disabled = true;
   elements.analyze.innerHTML = "正在比较 200+ 个目的地…";
   persistPreferences();
@@ -897,14 +1092,17 @@ document.querySelector(".dialog-close").addEventListener("click", () => elements
 
 [elements.dialog, elements.methodDialog, elements.feedbackDialog, elements.exclusionDialog].forEach((dialog) => {
   dialog.addEventListener("click", (event) => {
-    const rect = dialog.getBoundingClientRect();
-    const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
-    if (outside) dialog.close();
+    // Keyboard-triggered clicks report clientX/Y as 0, so a coordinate check
+    // would close the dialog on Enter/Space. Only a backdrop click targets the
+    // dialog element itself; clicks on content always target a child node.
+    if (event.target === dialog) dialog.close();
   });
 });
 
 loadPreferences();
 loadTravelMemory();
+enforceDateOrder("start");
+syncBudgetReadout();
 renderTags("passport");
 renderTags("visa");
 updateInterestCount();
