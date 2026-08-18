@@ -50,6 +50,39 @@ const destinations = [
       ["当前核验事项", "查看山区降雨、Vintgar 步道开放状态、申根停留天数与联程行李规则。"],
     ],
     budget: [["往返交通", "$$$$", "约四成"], ["住宿 8 晚", "$$$", "约三成"], ["餐饮", "$$", "约一成半"], ["当地交通", "$", "不到一成"], ["活动/保险/备用", "$", "不到一成"], ["总体档位", "$$$", "进阶预算"]],
+    lab: {
+      transport: [
+        { name: "常规转机航班", tier: 3, note: "提前 2–3 个月比价更稳，转机 1 次为主", default: true },
+        { name: "错峰淡季捡漏", tier: 2, note: "日期灵活、接受转机 2 次才有机会" },
+      ],
+      stay: [
+        { name: "露营 / 山间小屋", tier: 1, note: "布莱德与博希尼营地成熟，看季节与装备" },
+        { name: "青旅床位", tier: 1, note: "旺季湖区床位紧张，要早订" },
+        { name: "民宿 / 公寓", tier: 2, note: "带厨房，自炊能同时压低餐饮档", default: true },
+        { name: "湖景酒店", tier: 3, note: "湖岸第一排溢价明显，退一排更值" },
+      ],
+      food: [
+        { name: "市场简餐 + 自炊", tier: 1, note: "中央市场采购，公寓厨房解决晚餐" },
+        { name: "本地餐馆混搭", tier: 2, note: "正餐与简餐交替", default: true },
+        { name: "餐厅为主", tier: 3, note: "避开主广场旅游定价，多走一个街口" },
+      ],
+      local: [
+        { name: "全程巴士", tier: 1, note: "班次密集，周末回程早买票" },
+        { name: "巴士 + 个别包车", tier: 2, note: "偏远步道口用包车补足", default: true },
+        { name: "租车自驾", tier: 3, note: "山谷自由度换来的开销，含路票与停车" },
+      ],
+      extra: [
+        { name: "轻装免费路线", tier: 1, note: "湖边与步道本身不花钱" },
+        { name: "基本门票组合", tier: 2, note: "城堡、峡谷与湖心岛船票", default: true },
+        { name: "加付费体验", tier: 3, note: "皮划艇、溶洞一日游等" },
+      ],
+    },
+    wallet: {
+      pay: { cash: 1, card: 3, contactless: 3 },
+      payNote: "银行卡与非接支付覆盖良好；山区小店与市集备少量欧元现金即可。",
+      taxFree: "非欧盟居民购物达到商店门槛后可办理退税：购买时开退税单，离境欧盟时在机场核验，具体规则以海关与商店说明为准。",
+      goods: ["皮兰海盐", "南瓜籽油", "蜂蜜与蜂产品", "橙酒 / 本地葡萄酒", "伊德里亚蕾丝"],
+    },
   },
   {
     id: "fukuoka",
@@ -85,6 +118,38 @@ const destinations = [
       ["当前核验事项", "日本签证有效性、台风或强降雨概率、温泉设施纹身规则与末班车。"],
     ],
     budget: [["往返交通", "$$$", "约两成"], ["住宿 7 晚", "$$$$", "约三成半"], ["餐饮", "$$$", "约两成"], ["当地交通", "$$", "约一成"], ["活动/保险/备用", "$$", "约一成"], ["总体档位", "$$", "适中预算"]],
+    lab: {
+      transport: [
+        { name: "廉航促销", tier: 1, note: "票价便宜但要把行李额度算进总账" },
+        { name: "直飞往返", tier: 2, note: "约 2 小时，提前订更稳", default: true },
+        { name: "旺季 / 临期", tier: 3, note: "黄金周与年末明显跳档" },
+      ],
+      stay: [
+        { name: "胶囊旅馆", tier: 1, note: "博多站周边选择多，适合 1–2 晚体验；行李寄存要提前规划" },
+        { name: "青旅床位", tier: 1, note: "社交氛围好，隔音一般" },
+        { name: "商务酒店", tier: 2, note: "房间小但设施齐、位置好", default: true },
+        { name: "温泉旅馆一泊二食", tier: 3, note: "在别府升级一晚，把住宿变成体验" },
+      ],
+      food: [
+        { name: "便利店 + 市场", tier: 1, note: "日本便利店质量在线，早午餐足够好" },
+        { name: "屋台 + 定食", tier: 2, note: "本地感与预算的平衡点", default: true },
+        { name: "和牛 / 会席", tier: 3, note: "一顿高级料理即可让餐饮跳一档" },
+      ],
+      local: [
+        { name: "IC 卡公共交通", tier: 1, note: "地铁 + JR + 巴士覆盖全程", default: true },
+        { name: "特急 + 周游券", tier: 2, note: "去别府、由布院更快更省心" },
+      ],
+      extra: [
+        { name: "免费城市漫步", tier: 1, note: "神社、商店街与海滨不花钱" },
+        { name: "地狱巡游 + 砂汤", tier: 2, note: "别府的核心付费体验", default: true },
+      ],
+    },
+    wallet: {
+      pay: { cash: 3, card: 2, contactless: 3 },
+      payNote: "交通与连锁店的 IC 卡 / 非接支付很顺；屋台、小店与部分温泉设施仍偏现金，随身备日元零钱。",
+      taxFree: "日本对短期游客有免税购物制度：在贴有 Tax-Free 标识的商店持护照按门槛办理，商品可能需封装，离境时或有查验；细则以店内与海关说明为准。",
+      goods: ["明太子（真空装）", "药妆与文具", "九州烧酒 / 清酒", "小石原烧陶器", "太宰府梅枝饼（现场吃）"],
+    },
   },
   {
     id: "madeira",
@@ -120,6 +185,37 @@ const destinations = [
       ["当前核验事项", "步道封闭、风速和降雨、租车保险条款、山路驾驶能力及航班衔接。"],
     ],
     budget: [["往返交通", "$$$$", "近一半"], ["住宿 9 晚", "$$$", "约三成"], ["餐饮", "$$", "约一成半"], ["租车/油费/停车", "$$", "约一成"], ["活动/保险/备用", "$", "少量"], ["总体档位", "$$$", "进阶预算"]],
+    lab: {
+      transport: [
+        { name: "错峰早订", tier: 3, note: "提前约 3 个月并避开暑期与年末" },
+        { name: "常规转机", tier: 4, note: "转机 1–2 次，价格波动大", default: true },
+      ],
+      stay: [
+        { name: "青旅床位", tier: 1, note: "Funchal 选择多，北岸很少" },
+        { name: "公寓 / 民宿", tier: 2, note: "自炊加洗衣，长住友好", default: true },
+        { name: "庄园酒店 Quinta", tier: 3, note: "花园、景观与早餐，体验感强" },
+      ],
+      food: [
+        { name: "市场 + 自炊", tier: 1, note: "农贸市场的鱼和水果值得下厨" },
+        { name: "本地小馆", tier: 2, note: "旅游区外性价比明显更好", default: true },
+        { name: "海景餐厅为主", tier: 3, note: "景观位溢价高" },
+      ],
+      local: [
+        { name: "区域巴士", tier: 1, note: "省钱但要围绕班次安排行程" },
+        { name: "租车自驾", tier: 2, note: "岛上租车不算贵，山路与停车要适应", default: true },
+        { name: "包车 + 多个一日团", tier: 3, note: "不开车时最省心的组合" },
+      ],
+      extra: [
+        { name: "步道为主", tier: 1, note: "Levada 与山径本身免费", default: true },
+        { name: "缆车 + 出海观鲸", tier: 2, note: "选两三项付费体验即上一档" },
+      ],
+    },
+    wallet: {
+      pay: { cash: 1, card: 3, contactless: 3 },
+      payNote: "刷卡与非接支付普及；北岸小村与个别咖啡馆备少量欧元现金更稳。",
+      taxFree: "葡萄牙属欧盟退税体系：非欧盟居民购物达到门槛可办退税单，离境欧盟时核验，规则以海关与商店说明为准。",
+      goods: ["马德拉加强酒", "蜂蜜蛋糕 bolo de mel", "Poncha 调酒组合", "卡马查藤编", "马德拉刺绣"],
+    },
   },
   {
     id: "newzealand",
@@ -155,6 +251,38 @@ const destinations = [
       ["当前核验事项", "签证处理时间、国际驾照/翻译件、租车免赔额、山口天气和日落时间。"],
     ],
     budget: [["往返交通", "$$$$", "约三成"], ["住宿 11 晚", "$$$$", "约三成"], ["餐饮", "$$", "约一成多"], ["租车/油费/停车", "$$$", "约一成半"], ["活动/签证/保险", "$", "少量"], ["总体档位", "$$$$", "高预算"]],
+    lab: {
+      transport: [
+        { name: "早鸟 + 错峰", tier: 3, note: "避开 12–2 月当地暑假与航司旺季" },
+        { name: "常规转机", tier: 4, note: "大促时提前锁定，波动大", default: true },
+      ],
+      stay: [
+        { name: "营地 / 房车营位", tier: 1, note: "假日公园设施成熟，厨房浴室齐全" },
+        { name: "青旅 YHA", tier: 1, note: "南岛网络成熟，厨房大" },
+        { name: "汽车旅馆带厨房", tier: 2, note: "新西兰特色，自炊利器", default: true },
+        { name: "湖景酒店", tier: 4, note: "蒂卡波第一排溢价大，退一排差价明显" },
+      ],
+      food: [
+        { name: "超市自炊为主", tier: 1, note: "外食贵，自炊差价在这里最明显" },
+        { name: "自炊 + 外食混合", tier: 2, note: "公路日自炊，城市日外食", default: true },
+        { name: "餐厅为主", tier: 3, note: "连续外食会快速抬高总账" },
+      ],
+      local: [
+        { name: "城际巴士", tier: 2, note: "省心省钱但灵活性受限" },
+        { name: "租轿车", tier: 3, note: "油费、保险与异地还车费都要算", default: true },
+        { name: "房车（住 + 行合一）", tier: 3, note: "把住宿并进来后总账常常更省；冬季驾驶要评估" },
+      ],
+      extra: [
+        { name: "步道 + 观星", tier: 1, note: "暗夜保护区的星空本身免费", default: true },
+        { name: "天文台导览 + 观景飞行", tier: 3, note: "单项付费体验就能跳档" },
+      ],
+    },
+    wallet: {
+      pay: { cash: 1, card: 3, contactless: 3 },
+      payNote: "几乎全程可刷卡与非接支付（Paywave 普及）；少数营地与路边诚信箱需要少量现金硬币。",
+      taxFree: "新西兰没有面向游客的购物退税制度，商品按含税价计入预算；机场设有免税店，离境前购买即可。",
+      goods: ["麦卢卡蜂蜜", "美利奴羊毛制品", "本地葡萄酒", "绿玉 Pounamu 饰品（选正规渠道，尊重毛利文化）", "羊毛脂护肤品"],
+    },
   },
 ];
 
@@ -237,6 +365,108 @@ function shareDestination(id) {
     return;
   }
   showToast("请从地址栏手动复制链接分享");
+}
+
+// —— 预算实验室 ——
+
+const LAB_CATEGORIES = [
+  ["transport", "大交通", 0.35],
+  ["stay", "住宿", 0.3],
+  ["food", "餐饮", 0.15],
+  ["local", "当地交通", 0.1],
+  ["extra", "活动与其他", 0.1],
+];
+
+const TIER_TEXT = { 1: "$ 经济", 2: "$$ 适中", 3: "$$$ 进阶", 4: "$$$$ 高预算" };
+
+const TIER_LEGEND_ROWS = [
+  ["大交通（往返）", "≤¥1,500", "¥1,500–4,500", "¥4,500–8,000", "¥8,000+"],
+  ["住宿（每晚）", "¥80–250", "¥250–600", "¥600–1,200", "¥1,200+"],
+  ["餐饮（每天）", "¥60–150", "¥150–300", "¥300–600", "¥600+"],
+  ["当地交通（每天）", "≤¥50", "¥50–150", "¥150–350", "¥350+"],
+  ["活动与其他（全程）", "≤¥500", "¥500–1,500", "¥1,500–3,500", "¥3,500+"],
+];
+
+const labSelections = {};
+
+function labDefaults(destination) {
+  if (!labSelections[destination.id]) {
+    const picks = {};
+    LAB_CATEGORIES.forEach(([key]) => {
+      const options = destination.lab[key];
+      const index = options.findIndex((option) => option.default);
+      picks[key] = index >= 0 ? index : 0;
+    });
+    labSelections[destination.id] = picks;
+  }
+  return labSelections[destination.id];
+}
+
+function labScore(destination, usePicks) {
+  return LAB_CATEGORIES.reduce((sum, [key, , weight]) => {
+    const options = destination.lab[key];
+    const index = usePicks ? labDefaults(destination)[key] : Math.max(0, options.findIndex((o) => o.default));
+    return sum + options[index].tier * weight;
+  }, 0);
+}
+
+function labState(destination) {
+  const baseTier = { slovenia: 3, fukuoka: 2, madeira: 3, newzealand: 4 }[destination.id] || 2;
+  const delta = labScore(destination, true) - labScore(destination, false);
+  const tierFloat = Math.max(1, Math.min(4.35, baseTier + delta));
+  const tier = Math.max(1, Math.min(4, Math.round(tierFloat)));
+  const deltaHalf = Math.round(delta * 2) / 2;
+  return { tier, tierFloat, deltaHalf };
+}
+
+function formatHalf(value) {
+  const abs = Math.abs(value);
+  if (abs === 0.5) return "半";
+  return abs % 1 === 0 ? String(abs) : abs.toFixed(1);
+}
+
+function tierLegendTemplate() {
+  return `<details class="tier-legend"><summary>档位说明：$ 到 $$$$ 大概对应多少钱？</summary>
+    <table><thead><tr><th>类别</th><th>$</th><th>$$</th><th>$$$</th><th>$$$$</th></tr></thead>
+    <tbody>${TIER_LEGEND_ROWS.map((row) => `<tr>${row.map((cell, index) => (index === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`)).join("")}</tr>`).join("")}</tbody></table>
+    <p>为经验区间，随汇率、季节与预订时间波动，仅用于理解档位含义；实际价格以预订页面为准。</p>
+  </details>`;
+}
+
+function renderLab(destination) {
+  const picks = labDefaults(destination);
+  const { tier, tierFloat, deltaHalf } = labState(destination);
+  const shiftText =
+    deltaHalf === 0
+      ? "与默认组合相当"
+      : deltaHalf < 0
+        ? `比默认组合省约 ${formatHalf(deltaHalf)} 档`
+        : `比默认组合贵约 ${formatHalf(deltaHalf)} 档`;
+  const barWidth = Math.max(4, Math.min(100, ((tierFloat - 1) / 3) * 100));
+  return `
+    <div class="lab-meter">
+      <div class="lab-meter-top"><b>${"$".repeat(tier)}</b><span>${TIER_TEXT[tier].split(" ")[1]} · ${shiftText}</span></div>
+      <div class="lab-bar" aria-hidden="true"><i style="width:${barWidth}%"></i><span class="lab-bar-scale"><em>$</em><em>$$</em><em>$$$</em><em>$$$$</em></span></div>
+    </div>
+    ${LAB_CATEGORIES.map(([key, label]) => {
+      const options = destination.lab[key];
+      const active = options[picks[key]];
+      return `<div class="lab-cat"><span class="lab-cat-name">${label}</span>
+        <div class="lab-chips">${options.map((option, index) => `<button type="button" class="lab-chip ${index === picks[key] ? "active" : ""}" data-lab-cat="${key}" data-lab-index="${index}">${option.name} <i>${"$".repeat(option.tier)}</i></button>`).join("")}</div>
+        <small class="lab-note">${active.note}</small></div>`;
+    }).join("")}`;
+}
+
+const PAY_LABELS = { 1: "低", 2: "中", 3: "高" };
+
+function renderWallet(destination) {
+  const wallet = destination.wallet;
+  const pay = [["现金必要度", wallet.pay.cash], ["刷卡接受度", wallet.pay.card], ["非接 / 智能支付", wallet.pay.contactless]];
+  return `
+    <div class="wallet-pay">${pay.map(([label, level]) => `<span class="pay-chip"><b>${label}</b><i>${"●".repeat(level)}${"○".repeat(3 - level)}</i>${PAY_LABELS[level]}</span>`).join("")}</div>
+    <p class="wallet-note">${wallet.payNote}</p>
+    <div class="info-card"><b>退税与免税</b><p>${wallet.taxFree}</p></div>
+    <div class="goods-row"><b>值得带走</b>${wallet.goods.map((item) => `<span>${item}</span>`).join("")}</div>`;
 }
 
 // —— 旅行人格与晒图卡 ——
@@ -1042,7 +1272,9 @@ function openDestination(id) {
       <section class="drawer-section"><h3>为什么适合我</h3><div class="metric-grid">${destination.metrics.map(([name, score, label]) => `<article class="metric-card"><div class="metric-title"><b>${name}</b><span>${label} · ${score}</span></div><div class="metric-bar"><i style="width:${score}%"></i></div></article>`).join("")}</div></section>
       <section class="drawer-section"><h3>能否顺利前往</h3><div class="info-card"><b>${destination.docState === "ok" ? "初筛：可能符合现有证件条件" : "初筛：仍需完成或确认手续"}</b><p>${destination.docDetail}</p></div></section>
       <section class="drawer-section"><h3>住、吃、移动与安全</h3><div class="info-grid">${destination.info.map(([title, detail]) => `<article class="info-card"><b>${title}</b><p>${detail}</p></article>`).join("")}</div></section>
-      <section class="drawer-section"><h3>钱花在哪里</h3><table class="budget-table"><thead><tr><th>项目</th><th>档位</th><th>占总预算</th></tr></thead><tbody>${budgetRows}</tbody></table></section>
+      <section class="drawer-section"><h3>钱花在哪里</h3><table class="budget-table"><thead><tr><th>项目</th><th>档位</th><th>占总预算</th></tr></thead><tbody>${budgetRows}</tbody></table>${tierLegendTemplate()}</section>
+      <section class="drawer-section"><h3>预算实验室 · 换一换</h3><p class="lab-intro">同一条线，换个住法和走法，档位就会变。点选你的组合：</p><div class="lab" data-lab-destination="${destination.id}">${renderLab(destination)}</div></section>
+      <section class="drawer-section"><h3>钱包与购物</h3>${renderWallet(destination)}</section>
       ${renderReviewSection(destination)}
       <div class="drawer-footer"><p>预算档位为相对估算（$ 经济 · $$ 适中 · $$$ 进阶 · $$$$ 高预算），实际价格以预订页面为准；证件、天气、安全、步道和交通信息应在预订前及出发前再次从官方来源核验。</p><a class="guide-link" href="${guidePages[destination.id]}">📖 阅读完整攻略</a><button class="save-button" type="button" data-postcard="${destination.id}">📸 晒图卡</button><button class="save-button" type="button" data-share="${destination.id}">↗ 分享</button><button class="primary-button" type="button" data-dialog-save="${destination.id}">${state.saved.has(destination.id) ? "已收藏到候选清单" : "收藏到候选清单"}</button></div>
     </div>`;
@@ -1177,6 +1409,16 @@ document.addEventListener("click", (event) => {
 
   const postcard = event.target.closest("[data-postcard]");
   if (postcard) generatePostcard(postcard.dataset.postcard);
+
+  const labChip = event.target.closest("[data-lab-cat]");
+  if (labChip) {
+    const holder = labChip.closest("[data-lab-destination]");
+    const labDestination = destinations.find((item) => item.id === holder.dataset.labDestination);
+    if (labDestination) {
+      labDefaults(labDestination)[labChip.dataset.labCat] = Number(labChip.dataset.labIndex);
+      holder.innerHTML = renderLab(labDestination);
+    }
+  }
 
   const save = event.target.closest("[data-save], [data-dialog-save]");
   if (save) {

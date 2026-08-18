@@ -2460,3 +2460,238 @@ input:not([type="range"]):not([type="checkbox"]):focus {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* —— 档位说明 —— */
+.tier-legend {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fbfaf6;
+}
+
+.tier-legend summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+  color: var(--teal);
+  list-style: none;
+}
+
+.tier-legend summary::-webkit-details-marker { display: none; }
+
+.tier-legend summary::before {
+  content: "﹢ ";
+  color: var(--coral-dark);
+  font-weight: 800;
+}
+
+.tier-legend[open] summary::before { content: "﹣ "; }
+
+.tier-legend table {
+  width: calc(100% - 32px);
+  margin: 0 16px 6px;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.tier-legend th,
+.tier-legend td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.tier-legend thead th {
+  color: var(--coral-dark);
+  font-weight: 800;
+}
+
+.tier-legend tbody th { color: var(--ink); font-weight: 700; }
+.tier-legend td { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.tier-legend p {
+  margin: 8px 16px 12px;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+/* —— 预算实验室 —— */
+.lab-intro {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.lab-meter {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  color: white;
+  background: linear-gradient(120deg, var(--deep-2), var(--deep));
+}
+
+.lab-meter b {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #ffb59e;
+}
+
+.lab-meter span { font-size: 12px; font-weight: 700; }
+
+.lab-cat {
+  margin-bottom: 13px;
+}
+
+.lab-cat-name {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.lab-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.lab-chip {
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.lab-chip i {
+  margin-left: 5px;
+  font-style: normal;
+  font-weight: 800;
+  color: var(--coral-dark);
+}
+
+.lab-chip:hover { border-color: var(--teal); }
+
+.lab-chip.active {
+  border-color: var(--deep);
+  background: var(--deep);
+  color: white;
+}
+
+.lab-chip.active i { color: #ffb59e; }
+
+.lab-note {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* —— 钱包与购物 —— */
+.wallet-pay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+
+.pay-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.pay-chip i {
+  font-style: normal;
+  letter-spacing: 2px;
+  color: var(--teal);
+  font-size: 10px;
+}
+
+.wallet-note {
+  margin: 0 0 12px;
+  color: #33504c;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.goods-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.goods-row b {
+  font-size: 11.5px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.goods-row span {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--deep);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.lab-meter { display: block; }
+
+.lab-meter-top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.lab-bar {
+  position: relative;
+  height: 8px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.lab-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--teal), var(--coral));
+  transition: width 220ms ease;
+}
+
+.lab-bar-scale {
+  position: absolute;
+  inset: 12px 0 auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.lab-bar-scale em { font-style: normal; }
+
+.lab-meter { padding-bottom: 30px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-bar i { transition: none; }
+}
