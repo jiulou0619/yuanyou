@@ -173,7 +173,14 @@
                   <select id="residence"><option>中国大陆</option><option>美国</option><option>加拿大</option><option>英国</option><option>澳大利亚</option><option>新加坡</option></select>
                 </label>
                 <label class="input-label">出发城市
-                  <input id="origin" value="上海" maxlength="30" autocomplete="address-level2" />
+                  <input id="origin" value="上海" maxlength="30" list="city-suggestions" autocomplete="off" enterkeyhint="next" />
+                  <datalist id="city-suggestions">
+                    <option value="上海"></option><option value="北京"></option><option value="广州"></option><option value="深圳"></option>
+                    <option value="成都"></option><option value="杭州"></option><option value="重庆"></option><option value="西安"></option>
+                    <option value="南京"></option><option value="武汉"></option><option value="长沙"></option><option value="厦门"></option>
+                    <option value="青岛"></option><option value="昆明"></option><option value="天津"></option><option value="郑州"></option>
+                    <option value="香港"></option><option value="澳门"></option><option value="台北"></option><option value="新加坡"></option>
+                  </datalist>
                 </label>
               </div>
 
@@ -411,7 +418,7 @@
               <div class="aside-heading"><div><p class="eyebrow">动态情报</p><h3 id="signals-title">影响本次推荐的信号</h3></div><span class="demo-badge">示例数据</span></div>
               <article class="signal-item weather">
                 <span class="signal-icon">☀</span>
-                <div><b>你的日期正值肩季</b><p>南欧热浪风险回落，阿尔卑斯地区徒步条件仍较稳定。</p><small>天气模型 · 12 分钟前</small></div>
+                <div><b>你的日期正值错峰期</b><p>南欧热浪风险回落，阿尔卑斯地区徒步条件仍较稳定。</p><small>天气模型 · 12 分钟前</small></div>
               </article>
               <article class="signal-item crowd">
                 <span class="signal-icon">♟</span>

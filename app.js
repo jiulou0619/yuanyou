@@ -33,12 +33,12 @@ const destinations = [
     costRange: "$$$ · 进阶预算",
     tags: ["document", "quiet", "nature", "transit", "drive"],
     tagline: "安静、自然和本地生活的平衡点",
-    reasons: ["湖区与轻徒步同时命中高优先兴趣", "首都尺度紧凑，适合独自慢游", "肩季人流与住宿价格更友好"],
+    reasons: ["湖区与轻徒步同时命中高优先兴趣", "首都尺度紧凑，适合独自慢游", "春秋错峰出行，人流与住宿价格更友好"],
     tradeoffs: ["上海通常无直飞", "山区天气切换较快"],
     docDetail: "原型按你填写的中国大陆护照与有效申根多次签证初筛；仍需核对签证有效期、停留天数、首次入境与过境要求。",
     summary: ["匹配度 94", "8–10 天", "$$$ 进阶", "天气较合适", "人流中低"],
     metrics: [
-      ["兴趣匹配", 97, "非常符合"], ["预算稳健", 88, "P90 有余量"], ["氛围个性", 95, "安静而不无聊"],
+      ["兴趣匹配", 97, "非常符合"], ["预算稳健", 88, "留有余量"], ["氛围个性", 95, "安静而不无聊"],
       ["交通便利", 77, "跨境稍费时"], ["天气窗口", 91, "适合户外"], ["数据置信", 86, "需临近复核"],
     ],
     info: [
@@ -1171,7 +1171,7 @@ function cardTemplate(destination) {
           <div><span>建议天数</span><b>${destination.duration}</b></div>
           <div><span>同期体感</span><b>${destination.temperature}</b></div>
           <div><span>预计人流</span><b>${destination.crowd}</b></div>
-          <div><span>门到门</span><b>${destination.travel}</b></div>
+          <div><span>路上时间</span><b>${destination.travel}</b></div>
         </div>
         <div class="reason-grid">
           <div><h3>为什么推荐给你</h3><ul class="reason-list">${destination.reasons.map((item) => `<li>${item}</li>`).join("")}</ul></div>

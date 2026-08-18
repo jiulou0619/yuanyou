@@ -2695,3 +2695,58 @@ input:not([type="range"]):not([type="checkbox"]):focus {
 @media (prefers-reduced-motion: reduce) {
   .lab-bar i { transition: none; }
 }
+
+/* —— 移动端表单体验修复 —— */
+
+/* 已选证件标签：给标签组一个「已选」语义前缀，和下方选择器视觉分组 */
+.tag-list:not(:empty)::before {
+  content: "已选";
+  align-self: center;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #e7ede9;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.tag-list:empty {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  /* iOS 上表单控件字号低于 16px 会触发聚焦自动放大，是「界面乱跳」的元凶 */
+  input[type="text"],
+  input[type="date"],
+  input:not([type]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* 更大的触控目标 */
+  .data-tag {
+    padding: 9px 10px 9px 14px;
+    font-size: 14px;
+  }
+
+  .data-tag button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .step-tab {
+    min-height: 44px;
+  }
+
+  .lab-chip {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .filter-chip,
+  .review-filter {
+    min-height: 38px;
+  }
+}
