@@ -184,6 +184,7 @@ ${header(1)}
           <button type="button" class="lib-filter" data-filter-value="中东非洲">中东非洲</button>
           <button type="button" class="lib-filter" data-filter-value="欧洲">欧洲</button>
           <button type="button" class="lib-filter" data-filter-value="大洋洲">大洋洲</button>
+          <button type="button" class="lib-filter" data-filter-value="美洲">美洲</button>
         </div>
         <p class="lib-count" id="lib-count" aria-live="polite">显示全部 ${all.length} 个目的地</p>
       </section>
